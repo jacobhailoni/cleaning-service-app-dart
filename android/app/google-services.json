@@ -1,0 +1,184 @@
+{
+  "project_info": {
+    "project_number": "358101611411",
+    "firebase_url": "https://tophservices-default-rtdb.firebaseio.com",
+    "project_id": "tophservices",
+    "storage_bucket": "tophservices.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358101611411:android:40833bd530ace7f0e1ee66",
+        "android_client_info": {
+          "package_name": "com.example.tophservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs6fnVHbcnanTDogP3wI_DDj5BuDzn34Y"
+        },
+        {
+          "current_key": "AIzaSyBvMS0K9fGjy3EWyuvIkSkx_FfKwMKeIcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "358101611411-450qmubqt7uunieighe7capeq7l307oc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tophservices"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358101611411:android:b4e241ecda7b9d91e1ee66",
+        "android_client_info": {
+          "package_name": "com.iplugin.tophservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358101611411-0kpn6i3sf61obri4rflnn3qrf2546dpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iplugin.tophservices",
+            "certificate_hash": "a7dd42999b8d7a523d4114bbde9a55f2a8dfa1de"
+          }
+        },
+        {
+          "client_id": "358101611411-2ht67iv7dmohucsg3mvvq80gt4v0jajg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iplugin.tophservices",
+            "certificate_hash": "27e3df28c22d158cec435a9e9b0a1cc0a1014d02"
+          }
+        },
+        {
+          "client_id": "358101611411-5kvvsc72kj6hsr4nspa7r1tt4vsdcmgi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iplugin.tophservices",
+            "certificate_hash": "4abfe89674a2935b2871a6759539d625b6698719"
+          }
+        },
+        {
+          "client_id": "358101611411-mm2l5tc0ssrug6qk6qdnv6tnac5ujbjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iplugin.tophservices",
+            "certificate_hash": "3c71c17be90c985a8a6e7a6da829e2de1e3570fa"
+          }
+        },
+        {
+          "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs6fnVHbcnanTDogP3wI_DDj5BuDzn34Y"
+        },
+        {
+          "current_key": "AIzaSyBvMS0K9fGjy3EWyuvIkSkx_FfKwMKeIcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "358101611411-450qmubqt7uunieighe7capeq7l307oc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tophservices"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358101611411:android:42a798950d5ffcc4e1ee66",
+        "android_client_info": {
+          "package_name": "com.tophservices.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358101611411-575bmek4upebja36jvtg998ltfga8fhf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tophservices.app",
+            "certificate_hash": "27e3df28c22d158cec435a9e9b0a1cc0a1014d02"
+          }
+        },
+        {
+          "client_id": "358101611411-tb4qn7230fmshapcgvugu4ucgnkm4j59.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tophservices.app",
+            "certificate_hash": "a7dd42999b8d7a523d4114bbde9a55f2a8dfa1de"
+          }
+        },
+        {
+          "client_id": "358101611411-upcp780t0rbd9l27vhcp8hm3r6u5sf7a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tophservices.app",
+            "certificate_hash": "4abfe89674a2935b2871a6759539d625b6698719"
+          }
+        },
+        {
+          "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs6fnVHbcnanTDogP3wI_DDj5BuDzn34Y"
+        },
+        {
+          "current_key": "AIzaSyBvMS0K9fGjy3EWyuvIkSkx_FfKwMKeIcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "358101611411-450qmubqt7uunieighe7capeq7l307oc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tophservices"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
