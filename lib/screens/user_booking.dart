@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:tophservices/models/booking_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class UserBookingsScreen extends StatelessWidget {
   final String userId;
@@ -16,13 +17,13 @@ class UserBookingsScreen extends StatelessWidget {
             color: Colors.white, // Change this color to the desired color
           ),
           title: Text(
-            'Your Bookings',
-            style: TextStyle(color: Colors.white),
+            AppLocalizations.of(context)!.yourBookings,
+            style: const TextStyle(color: Colors.white),
           ),
-          backgroundColor: Color(0xFF03ADF6),
+          backgroundColor: const Color(0xFF03ADF6),
         ),
         body: Padding(
-          padding: EdgeInsets.all(2),
+          padding: const EdgeInsets.all(2),
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('bookings')
@@ -33,7 +34,7 @@ class UserBookingsScreen extends StatelessWidget {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
                 print(snapshot.error);
@@ -43,7 +44,7 @@ class UserBookingsScreen extends StatelessWidget {
                   .map((doc) => Booking.fromFirebase(doc))
                   .toList();
               if (bookings.isEmpty) {
-                return Center(child: Text('No bookings found.'));
+                return const Center(child: Text('No bookings found.'));
               }
               return ListView.builder(
                 itemCount: bookings.length,
@@ -54,14 +55,14 @@ class UserBookingsScreen extends StatelessWidget {
                       ListTile(
                         title: Text(
                           booking.serviceName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xFF03ADF6),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         subtitle: Text(
-                          'Date: ${DateFormat('E, dd MMM yyyy').format(booking.date)}, Time: ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? 'AM' : 'PM'}',
-                          style: TextStyle(
+                          '${AppLocalizations.of(context)!.date}: ${DateFormat(' dd MMM yyyy').format(booking.date)}, ${AppLocalizations.of(context)!.time}: ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? 'AM' : 'PM'}',
+                          style: const TextStyle(
                             color: Colors.black87,
                           ),
                         ),

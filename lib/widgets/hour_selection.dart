@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class HourSelection extends StatefulWidget {
   final Function(double) onHourSelected;
@@ -39,7 +40,7 @@ class _HourSelectionState extends State<HourSelection> {
                         ? const Color.fromRGBO(3, 173, 246, 1)
                         : Colors.white,
                     _selectedHour == hour
-                        ? Color.fromRGBO(2, 134, 191, 1)
+                        ? const Color.fromRGBO(2, 134, 191, 1)
                         : Colors.white,
                   ],
                 ),
@@ -60,10 +61,10 @@ class _HourSelectionState extends State<HourSelection> {
                       Icons.watch_later_rounded,
                       color: _selectedHour == hour
                           ? Colors.white
-                          : Color.fromRGBO(3, 173, 246, 1),
+                          : const Color.fromRGBO(3, 173, 246, 1),
                     ),
                     Text(
-                      '${hour.toString()[0]} hours ${hour.toString()[2] == '0' ? '' : 'and half'}',
+                      '${hour.toString()[0]} ${AppLocalizations.of(context)!.hours} ${hour.toString()[2] == '0' ? '' : AppLocalizations.of(context)!.hourandhalf}',
                       style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,

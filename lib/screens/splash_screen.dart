@@ -36,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
         MaterialPageRoute(
           builder: (context) => GFHomeScreen(
             userId: user.uid,
+            index: 0
           ),
         ),
       );

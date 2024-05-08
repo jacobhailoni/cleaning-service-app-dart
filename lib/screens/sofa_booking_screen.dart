@@ -5,6 +5,8 @@ import 'package:tophservices/models/service_model.dart';
 import 'package:tophservices/models/user.dart';
 import 'package:tophservices/screens/BookingDetailsScreen.dart';
 import 'package:tophservices/widgets/custom_time_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class SofaBookingScreen extends StatefulWidget {
   final Service service;
@@ -40,7 +42,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -48,28 +50,28 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     style: const TextStyle(fontSize: 20),
                     readOnly: true,
                     onTap: () => _selectDate(context),
-                    decoration: const InputDecoration(
-                      focusColor: Color.fromRGBO(3, 173, 246, 1),
+                    decoration:  InputDecoration(
+                      focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                        'Select Date',
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.date,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             width: 1,
                             color: Colors
                                 .black54), // Change the border color when focused
                       ),
-                      focusedErrorBorder: OutlineInputBorder(
+                      focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors
                                 .black), // Change the border color when focused and there's an error
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.calendar_today,
                         color: Color.fromRGBO(3, 173, 246, 1),
                       ),
@@ -77,7 +79,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     controller: TextEditingController(
                         text: DateFormat('E, dd MMM yy').format(_selectedDate)),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SofaSeatStepper(
@@ -95,29 +97,29 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     cursorColor: const Color.fromRGBO(3, 173, 246, 1),
                     readOnly: true,
                     onTap: () => _selectTime(context),
-                    decoration: const InputDecoration(
-                      focusColor: Color.fromRGBO(3, 173, 246, 1),
+                    decoration:  InputDecoration(
+                      focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                        'Select Time',
-                        style: TextStyle(
+                       AppLocalizations.of(context)!.time,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2,
                           color: Color.fromRGBO(3, 173, 246, 1),
                         ),
                       ),
-                      focusedErrorBorder: OutlineInputBorder(
+                      focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.black,
                         ),
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.watch_later_outlined,
                         color: Color.fromRGBO(3, 173, 246, 1),
                       ),
@@ -136,7 +138,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Total Price: $_totalPrice AED',
+                  '${AppLocalizations.of(context)!.totalprice}: ${_totalPrice.toInt()} ${AppLocalizations.of(context)!.aed}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -151,9 +153,9 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color.fromRGBO(3, 173, 246, 1)),
                   ),
-                  label: const Text(
-                    'Next',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  label:  Text(
+                   AppLocalizations.of(context)!.next,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   icon: const Icon(
                     Icons.navigate_next_rounded,
@@ -270,7 +272,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
-              child: const Text('OK'),
+              child:  Text(AppLocalizations.of(context)!.ok,),
             ),
           ],
         );
@@ -301,8 +303,8 @@ class _SofaSeatStepperState extends State<SofaSeatStepper> {
           children: [
             Text(
               textAlign: TextAlign.start,
-              'How many Sofa Seats you have?',
-              style: TextStyle(fontSize: 17),
+              AppLocalizations.of(context)!.sofaseats,
+              style: const TextStyle(fontSize: 17),
             ),
           ],
         ),
@@ -319,14 +321,14 @@ class _SofaSeatStepperState extends State<SofaSeatStepper> {
                   },
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.remove_circle,
                 size: 30,
               ),
             ),
             Text(
               widget.seatNumber.toString(),
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             IconButton(
               onPressed: () {
@@ -338,15 +340,15 @@ class _SofaSeatStepperState extends State<SofaSeatStepper> {
                   },
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.add_circle,
                 size: 30,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
-            Icon(
+            const Icon(
               Icons.chair_rounded,
               size: 50,
               color: Color.fromRGBO(3, 173, 246, 1),

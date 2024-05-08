@@ -19,7 +19,7 @@ class ServiceCard extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         try {
-          if (service.name == 'Cleaning Per Hour') {
+          if (service.name == 'Cleaning Per Hour' || service.name == 'تنظيف بالساعة') {
             await Navigator.push(
               context,
               MaterialPageRoute(
@@ -29,7 +29,7 @@ class ServiceCard extends StatelessWidget {
                 ),
               ),
             );
-          } else if (service.name == 'Sofa Cleaning') {
+          } else if (service.name == 'Sofa Cleaning' || service.name == 'تنظيف الكنب') {
             await Navigator.push(
               context,
               MaterialPageRoute(

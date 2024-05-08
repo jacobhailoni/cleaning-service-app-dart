@@ -1,50 +1,44 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tophservices/main.dart';
 
 class SettingItem {
-  String title;
-  IconData icon;
-  void Function(BuildContext) onTap;
+  final String title;
+  final IconData icon;
+  final void Function(BuildContext) onTap;
 
   SettingItem(this.title, this.icon, this.onTap);
 }
 
-void _signOut(BuildContext context) {
-  try {
-    FirebaseAuth.instance.signOut();
-    // Navigate back to the login page
-    Navigator.pushReplacementNamed(context, '/login');
-  } catch (e) {
-    print("Error signing out: $e");
-    // Handle sign-out error (e.g., show error message)
-  }
-}
-
-void _emptyFunction(BuildContext context) {
-  // Empty function, does nothing
-}
-
-List<SettingItem> items = [
-  SettingItem('Account Settings', Icons.person, _emptyFunction),
-  SettingItem('Change Language', Icons.language, _emptyFunction),
-  SettingItem('Terms & Condition', Icons.file_copy_outlined, _emptyFunction),
-  SettingItem('Privacy Policy', Icons.lock, _emptyFunction),
-  SettingItem('FAQ', Icons.question_answer_outlined, _emptyFunction),
-  SettingItem('Get Help', Icons.help_center, _emptyFunction),
-  // Changed the title of the last item to "Log Out" instead of "Sign Out"
-  SettingItem('Log Out', Icons.logout_outlined, _signOut),
-];
-
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<SettingItem> items = [
+      SettingItem(AppLocalizations.of(context)!.accountSetting, Icons.person,
+          _emptyFunction),
+      SettingItem(AppLocalizations.of(context)!.language, Icons.language,
+          showLanguageChangeDialog),
+      SettingItem(AppLocalizations.of(context)!.terms, Icons.file_copy_outlined,
+          _emptyFunction),
+      SettingItem(AppLocalizations.of(context)!.privacyPolicy, Icons.lock,
+          _emptyFunction),
+      SettingItem(AppLocalizations.of(context)!.faq,
+          Icons.question_answer_outlined, _emptyFunction),
+      SettingItem(AppLocalizations.of(context)!.help, Icons.help_center,
+          _emptyFunction),
+      // Changed the title of the last item to "Log Out" instead of "Sign Out"
+      SettingItem(AppLocalizations.of(context)!.logout, Icons.logout_outlined,
+          _signOut),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Profile And Settings',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.accountSetting,
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
@@ -67,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           leading: Container(
-                            padding: EdgeInsets.only(right: 12.0),
+                            padding: const EdgeInsets.only(right: 12.0),
                             child: Icon(
                               item.icon,
                               color: Colors.white,
@@ -76,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           title: Text(
                             item.title,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -91,4 +85,74 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+
+  void _signOut(BuildContext context) {
+    try {
+      FirebaseAuth.instance.signOut();
+      // Navigate back to the login page
+      Navigator.pushReplacementNamed(context, '/login');
+    } catch (e) {
+      print("Error signing out: $e");
+      // Handle sign-out error (e.g., show error message)
+    }
+  }
+
+  void _emptyFunction(BuildContext context) {
+    // Empty function, does nothing
+  }
+  void showLanguageChangeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.language),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(AppLocalizations.of(context)!.english,
+                          style: const TextStyle(fontSize: 22)),
+                      const Text(
+                        '🇺🇸',
+                        style: TextStyle(fontSize: 22),
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    changeLocale(context, const Locale('en'));
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(AppLocalizations.of(context)!.arabic,
+                          style: const TextStyle(fontSize: 22)),
+                      const Text(
+                        '🇦🇪',
+                        style: TextStyle(fontSize: 22),
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    changeLocale(context, const Locale('ar'));
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+void changeLocale(BuildContext context, Locale newLocale) {
+  MyApp.setLocale(context, newLocale);
 }

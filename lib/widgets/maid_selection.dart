@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class MaidSelection extends StatefulWidget {
   final Function(double) onMaidSelected;
@@ -58,10 +59,10 @@ class _MaidSelectionState extends State<MaidSelection> {
                     Icons.person_2_sharp,
                     color: _selectedMaidIndex == index
                         ? Colors.white
-                        : Color.fromRGBO(3, 173, 246, 1),
+                        : const Color.fromRGBO(3, 173, 246, 1),
                   ),
                   Text(
-                    '${maidCount.toInt()}  Maid/s',
+                    '${maidCount.toInt()}  ${AppLocalizations.of(context)!.maid}',
                     style: TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.bold,

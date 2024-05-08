@@ -307,6 +307,7 @@ class _MapScreenState extends State<MapScreen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => GFHomeScreen(
+            index: 0,
             userId: widget.currentUser!.id,
           ),
         ),

@@ -10,6 +10,8 @@ import 'package:tophservices/screens/BookingDetailsScreen.dart';
 import 'package:tophservices/widgets/hour_selection.dart';
 import 'package:tophservices/widgets/maid_selection.dart';
 import 'package:tophservices/widgets/custom_time_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class CphBookingScreen extends StatefulWidget {
   final Service service;
@@ -157,28 +159,28 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                     style: const TextStyle(fontSize: 20),
                     readOnly: true,
                     onTap: () => _selectDate(context),
-                    decoration: const InputDecoration(
-                      focusColor: Color.fromRGBO(3, 173, 246, 1),
+                    decoration:  InputDecoration(
+                      focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                        'Select Date',
-                        style: TextStyle(
+                       AppLocalizations.of(context)!.date,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             width: 1,
                             color: Colors
                                 .black54), // Change the border color when focused
                       ),
-                      focusedErrorBorder: OutlineInputBorder(
+                      focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors
                                 .black), // Change the border color when focused and there's an error
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.calendar_today,
                         color: Color.fromRGBO(3, 173, 246, 1),
                       ),
@@ -188,9 +190,9 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                   ),
                   Row(
                     children: [
-                      const Text(
-                        'Number of Maids',
-                        style: TextStyle(
+                       Text(
+                        AppLocalizations.of(context)!.maidsnumber,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -206,9 +208,9 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                   ),
                   Row(
                     children: [
-                      const Text(
-                        'Cleaning Hours',
-                        style: TextStyle(
+                     Text(
+                        AppLocalizations.of(context)!.cleaninghours,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -232,29 +234,29 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                     cursorColor: const Color.fromRGBO(3, 173, 246, 1),
                     readOnly: true,
                     onTap: () => _selectTime(context),
-                    decoration: const InputDecoration(
-                      focusColor: Color.fromRGBO(3, 173, 246, 1),
+                    decoration:  InputDecoration(
+                      focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                        'Starting Time',
-                        style: TextStyle(
+                         AppLocalizations.of(context)!.startingtime,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2,
                           color: Color.fromRGBO(3, 173, 246, 1),
                         ),
                       ),
-                      focusedErrorBorder: OutlineInputBorder(
+                      focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.black,
                         ),
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.watch_later_outlined,
                         color: Color.fromRGBO(3, 173, 246, 1),
                       ),
@@ -295,9 +297,9 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const Text(
-                                  'With Materials: ',
-                                  style: TextStyle(
+                                 Text(
+                                   AppLocalizations.of(context)!.withmaterils,
+                                  style: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -345,7 +347,7 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Total Price: $_totalPrice AED',
+                  '${ AppLocalizations.of(context)!.totalprice}: $_totalPrice ${AppLocalizations.of(context)!.aed}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -360,9 +362,9 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color.fromRGBO(3, 173, 246, 1)),
                   ),
-                  label: const Text(
-                    'Next',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  label:  Text(
+                    AppLocalizations.of(context)!.next,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   icon: const Icon(
                     Icons.navigate_next_rounded,

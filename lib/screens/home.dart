@@ -10,6 +10,7 @@ import 'package:tophservices/models/user.dart';
 import 'package:tophservices/widgets/LocationInputField.dart';
 import 'package:tophservices/widgets/service_card.dart';
 import 'package:tophservices/widgets/slider.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 Future<List<DocumentSnapshot>> fetchServices() async {
   try {
@@ -109,104 +110,100 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        return Scaffold(
+          body: Stack(
             children: [
-              SizedBox(
-                height: screenHeight * 0.2 + kToolbarHeight,
-                child: AppBar(
-                  toolbarHeight: screenHeight * 0.2,
-                  title: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
-                    child: LocationInputField(
-                      currentUser: currentUser,
-                      onUpdateLocation: _updateLocationInfo,
-                    ),
-                  ),
-                  backgroundColor: const Color.fromRGBO(3, 173, 246, 1),
-                  elevation: 0,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
-                      child: Image.asset(
-                        'assets/logo.png',
-                        width: 90,
-                        height: 90,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: MediaQuery.of(context).padding.top + kToolbarHeight,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, kToolbarHeight, 0, 0),
-              child: Column(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: ImageSlider(),
-                  ),
-                  // const Center(
-                  //   child: Text(
-                  //     'Our Services',
-                  //     style:
-                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
-                  Expanded(
-                    child: FutureBuilder<List<DocumentSnapshot>>(
-                      future: fetchServices(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const GFLoader(
-                            type: GFLoaderType.android,
-                            loaderIconOne: Text('Please'),
-                            loaderIconTwo: Text('Wait'),
-                            loaderIconThree: Text('a moment'),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              Map<String, dynamic> serviceData =
-                                  snapshot.data![index].data()
-                                      as Map<String, dynamic>;
-                              var service = Service(
-                                id: serviceData['id'],
-                                name: serviceData['name'],
-                                description: serviceData['description'],
-                                image_url: serviceData['image_url'],
-                                bookingOptions: Map<String, dynamic>.from(
-                                    serviceData['bookingOptions']),
-                                addons: Map<String, dynamic>.from(
-                                    serviceData['addons']),
-                              );
-                              return ServiceCard(
-                                  service: service, currentuser: currentUser);
-                            },
-                          );
-                        }
-                      },
+                  SizedBox(
+                    height: screenHeight * 0.2 + kToolbarHeight,
+                    child: AppBar(
+                      toolbarHeight: screenHeight * 0.2,
+                      title: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
+                        child: LocationInputField(
+                          currentUser: currentUser,
+                          onUpdateLocation: _updateLocationInfo,
+                        ),
+                      ),
+                      backgroundColor: const Color.fromRGBO(3, 173, 246, 1),
+                      elevation: 0,
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
+                          child: Image.asset(
+                            'assets/logo.png',
+                            width: 90,
+                            height: 90,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
+              Positioned(
+                top: MediaQuery.of(context).padding.top + kToolbarHeight,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, kToolbarHeight, 0, 0),
+                  child: Column(
+                    children: [
+                      ImageSlider(),
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      //   child: ImageSlider(),
+                      // ),
+                      // const Center(
+                      //   child: Text(
+                      //     'Our Services',
+                      //     style:
+                      //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      //   ),
+                      // ),
+                      Expanded(
+                        child: FutureBuilder<List<DocumentSnapshot>>(
+                          future: fetchServices(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const GFLoader(
+                                type: GFLoaderType.android,
+                                loaderIconOne: Text('Please'),
+                                loaderIconTwo: Text('Wait'),
+                                loaderIconThree: Text('a moment'),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  Map<String, dynamic> serviceData =
+                                      snapshot.data![index].data()
+                                          as Map<String, dynamic>;
+
+                                  var service = Service.fromSnapshot(
+                                      serviceData,
+                                      AppLocalizations.of(context)!.localeName);
+                                  return ServiceCard(
+                                      service: service,
+                                      currentuser: currentUser);
+                                },
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
+      }
   }
-}

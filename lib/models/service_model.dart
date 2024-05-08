@@ -1,28 +1,47 @@
-class Service {
-  final int id;
-  final String name;
-  final String description;
-  final String image_url;
-  final Map<String, dynamic> bookingOptions;
-  final Map<String, dynamic> addons;
+import 'package:firebase_database/firebase_database.dart';
 
-  Service({
+class Service {
+    final int id;
+    late String name;
+    late String description;
+    final String image_url;
+    final Map<String, dynamic> bookingOptions;
+    final Map<String, dynamic> addons;
+
+    Service({
     required this.id,
-    required this.name,
-    required this.description,
     required this.image_url,
     required this.bookingOptions,
     required this.addons,
-  });
+    });
 
-  Map<String, dynamic> toMap() {
+factory Service.fromSnapshot(Map<String, dynamic> data, String languageCode) {
+    return Service(
+    id: data['id'],
+    image_url: data['image_url'],
+    bookingOptions: data['bookingOptions'],
+    addons: data['addons'],
+    )..setLocalizedContent(data, languageCode);
+}
+
+void setLocalizedContent(Map<String, dynamic> data, String languageCode) {
+    if (languageCode == 'ar' && data.containsKey('name_ar')) {
+    name = data['name_ar'];
+    description = data['description_ar'];
+    } else {
+    name = data['name_en'];
+    description = data['description_en'];
+    }
+}
+
+    Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'image_url': image_url,
-      'bookingOptions': bookingOptions,
-      'addons': addons,
+        'id': id,
+        'name': name,
+        'description': description,
+        'image_url': image_url,
+        'bookingOptions': bookingOptions,
+        'addons': addons,
     };
-  }
+    }
 }
