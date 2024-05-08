@@ -77,9 +77,10 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromFirebaseUser(User user) {
+  factory UserModel.fromFirebaseUser(User? user) {
+    print(user);
     return UserModel(
-      id: user.uid,
+      id: user!.uid,
       name: user.displayName ?? '',
       email: user.email ?? '',
       phoneNumber: user.phoneNumber ?? '',
@@ -88,6 +89,20 @@ class UserModel {
         buildingNumber: '',
         apartmentNumber: '',
         administrativeArea: '',
+      ),
+    );
+  }
+    factory UserModel.fromFirebaseCollection(UserModel? user) {
+    return UserModel(
+      id: user!.id,
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      userLocation: BookingLocation(
+        location: user.userLocation.location,
+        buildingNumber: user.userLocation.buildingNumber,
+        apartmentNumber: user.userLocation.apartmentNumber,
+        administrativeArea: user.userLocation.administrativeArea,
       ),
     );
   }

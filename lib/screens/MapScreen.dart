@@ -8,6 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tophservices/main.dart';
 import 'package:tophservices/models/booking_location_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 import 'package:tophservices/models/user.dart'; // Import UserModel
 
 class MapScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class MapScreen extends StatefulWidget {
   final bool navigateToHomePage; // New parameter
 
   const MapScreen({
+    super.key,
     required this.currentUser,
     required this.onUpdateLocation,
     required this.navigateToHomePage, // Add this parameter
@@ -37,10 +40,8 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    print(
-        '********************************* ${widget.currentUser!.id}*******************************');
+    selectedLocation = const LatLng(23.4241, 53.8478);
     _locateMe();
-    selectedLocation = LatLng(23.4241, 53.8478);
   }
 
   @override
@@ -53,7 +54,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Map'),
+        title: Text(AppLocalizations.of(context)!.map),
       ),
       body: Column(
         children: [
@@ -108,32 +109,56 @@ class _MapScreenState extends State<MapScreen> {
                     TextField(
                       readOnly: true,
                       controller: streetController,
-                      decoration: const InputDecoration(
-                          labelText: 'Street Name',
-                          labelStyle: TextStyle(
-                              color: Color.fromRGBO(3, 173, 246, 1),
-                              fontSize: 20),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(3, 173, 246, 1)))),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.street,
+                        labelStyle: const TextStyle(
+                            color: Color.fromRGBO(3, 173, 246, 1),
+                            fontSize: 20),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(3, 173, 246, 1),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     TextField(
                       controller: buildingNameController,
-                      decoration: const InputDecoration(
-                          labelText: 'Building Name',
-                          labelStyle: TextStyle(
-                              color: Color.fromRGBO(3, 173, 246, 1),
-                              fontSize: 14),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(3, 173, 246, 1)))),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.building,
+                        labelStyle: const TextStyle(
+                            color: Color.fromRGBO(3, 173, 246, 1),
+                            fontSize: 14),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(3, 173, 246, 1),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     TextField(
                       controller: apartmentNumberController,
-                      decoration:
-                          const InputDecoration(labelText: 'Apartment Number'),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.apartment,
+                        labelStyle: const TextStyle(
+                            color: Color.fromRGBO(3, 173, 246, 1),
+                            fontSize: 14),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(3, 173, 246, 1),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -142,9 +167,9 @@ class _MapScreenState extends State<MapScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(3, 173, 246, 1),
                   ),
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(color: Colors.white),
+                  child: Text(
+                    AppLocalizations.of(context)!.ok,
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -273,7 +298,7 @@ class _MapScreenState extends State<MapScreen> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -288,8 +313,19 @@ class _MapScreenState extends State<MapScreen> {
     String apartmentNumber = apartmentNumberController.text;
 
     if (buildingName.isEmpty || apartmentNumber.isEmpty) {
-      // Show an alert or message to indicate that fields are empty
-      // Handle empty fields...
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.alert),
+          content: Text(AppLocalizations.of(context)!.fields),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppLocalizations.of(context)!.ok),
+            ),
+          ],
+        ),
+      );
     } else {
       // Update location details in currentUser
       widget.currentUser!.updateBuildingNumber(buildingName);

@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:tophservices/models/booking_model.dart';
 import 'package:tophservices/models/coupon_model.dart';
 import 'package:tophservices/screens/booking_confirmation_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class BookingDetailsScreen extends StatelessWidget {
   final Booking booking;
@@ -18,11 +20,11 @@ class BookingDetailsScreen extends StatelessWidget {
         iconTheme: const IconThemeData(
           color: Colors.white, // Change this color to the desired color
         ),
-        title: const Text(
-          'Booking Details',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.bookingdetails,
+          style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color(0xFF03ADF6),
+        backgroundColor: const Color(0xFF03ADF6),
       ),
       body: BookingDetailsForm(booking: booking),
     );
@@ -106,12 +108,12 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const GFTypography(
-                                text: 'Booking Summary',
+                               GFTypography(
+                                text: AppLocalizations.of(context)!.bookingdetails,
                                 showDivider: false,
                                 type: GFTypographyType.typo1,
                                 fontWeight: FontWeight.bold,
-                                textColor: Color.fromRGBO(3, 173, 246, 1),
+                                textColor: const Color.fromRGBO(3, 173, 246, 1),
                               ),
                               const SizedBox(
                                 height: 10,
@@ -126,7 +128,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                     width: 10,
                                   ),
                                   Text(
-                                    'Service Name: ${booking.serviceName}',
+                                    '${AppLocalizations.of(context)!.servicename}: ${booking.serviceName}',
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -156,7 +158,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                               Column(
                                 children: [
                                   if (booking.serviceName ==
-                                      'Cleaning Per Hour')
+                                      'Cleaning Per Hour' || booking.serviceName ==  'تنظيف بالساعة')
                                     Column(
                                       children: [
                                         Row(
@@ -169,7 +171,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                               width: 10,
                                             ),
                                             Text(
-                                              '${booking.hours.toInt()} Hours',
+                                              '${booking.hours.toInt()} ${AppLocalizations.of(context)!.hours}',
                                               style:
                                                   const TextStyle(fontSize: 20),
                                             ),
@@ -188,7 +190,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                               width: 10,
                                             ),
                                             Text(
-                                              '${booking.maidsCount} Maid/s',
+                                              '${booking.maidsCount} ${AppLocalizations.of(context)!.maid}',
                                               style:
                                                   const TextStyle(fontSize: 20),
                                             ),
@@ -221,7 +223,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                       ],
                                     )
                                   else if (booking.serviceName ==
-                                      'Sofa Cleaning')
+                                      'Sofa Cleaning' || booking.serviceName == 'تنظيف الكنب')
                                     Column(
                                       children: [
                                         Row(
@@ -266,12 +268,12 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              const GFTypography(
-                                text: 'Payment Method:',
+                               GFTypography(
+                                text: '${AppLocalizations.of(context)!.payment}:',
                                 showDivider: false,
                                 type: GFTypographyType.typo1,
                                 fontWeight: FontWeight.bold,
-                                textColor: Color.fromRGBO(3, 173, 246, 1),
+                                textColor: const Color.fromRGBO(3, 173, 246, 1),
                               ),
                               GFCard(
                                 margin: const EdgeInsets.all(2),
@@ -288,9 +290,9 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                       payment_meth = value!;
                                     });
                                   },
-                                  title: const Text(
-                                    'Cash On Service',
-                                    style: TextStyle(fontSize: 18),
+                                  title: Text(
+                                    AppLocalizations.of(context)!.cash,
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
                               ),
@@ -311,9 +313,9 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                     onChanged: (value) {
                                       // This won't be called as the widget is disabled
                                     },
-                                    title: const Text(
-                                      'Credit Card/Online',
-                                      style: TextStyle(fontSize: 18),
+                                    title:  Text(
+                                      AppLocalizations.of(context)!.online,
+                                      style: const TextStyle(fontSize: 18),
                                     ),
                                   ),
                                 ),
@@ -328,7 +330,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                   padding: const EdgeInsets.fromLTRB(
                                       10.0, 10, 10.0, 10),
                                   child: Wrap(
-                                    spacing: 20,
+                                    spacing: 10,
                                     alignment: WrapAlignment.center,
                                     crossAxisAlignment:
                                         WrapCrossAlignment.center,
@@ -340,18 +342,18 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.bold),
                                             readOnly: false,
-                                            decoration: const InputDecoration(
-                                              focusColor: Color.fromRGBO(
+                                            decoration:  InputDecoration(
+                                              focusColor: const Color.fromRGBO(
                                                   3, 173, 246, 1),
                                               label: Text(
-                                                'Enter Coupon',
-                                                style: TextStyle(
+                                                AppLocalizations.of(context)!.coupon,
+                                                style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black),
                                               ),
-                                              border: OutlineInputBorder(),
-                                              focusedBorder: OutlineInputBorder(
+                                              border: const OutlineInputBorder(),
+                                              focusedBorder: const OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     width: 2,
                                                     color: Color.fromRGBO(
@@ -361,7 +363,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                                         1)), // Change the border color when focused
                                               ),
                                               focusedErrorBorder:
-                                                  OutlineInputBorder(
+                                                  const OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Colors
                                                         .black), // Change the border color when focused and there's an error
@@ -409,14 +411,14 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Price: ${booking.totalPrice.toInt()}  AED',
+                          Text('${AppLocalizations.of(context)!.price}: ${booking.totalPrice.toInt()}  ${AppLocalizations.of(context)!.aed}',
                               style: const TextStyle(fontSize: 20)),
                           Text(
-                              'Discount:  ${(booking.totalPrice * _discount) ~/ 100}   AED  -',
+                              '${AppLocalizations.of(context)!.discount}:  ${(booking.totalPrice * _discount) ~/ 100}   ${AppLocalizations.of(context)!.aed}  -',
                               style: const TextStyle(
                                   fontSize: 20, color: Colors.green)),
                           Text(
-                              'Final Price: ${booking.totalPrice - (_discount * booking.totalPrice / 100)}   AED',
+                              '${AppLocalizations.of(context)!.finalprice}: ${booking.totalPrice - (_discount * booking.totalPrice / 100)}   ${AppLocalizations.of(context)!.aed}',
                               style: const TextStyle(fontSize: 20)),
                         ],
                       ),
@@ -441,9 +443,9 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                 Icons.bookmark_add_rounded,
                                 size: 40,
                               ),
-                              label: const Text(
-                                'Book Now',
-                                style: TextStyle(
+                              label:  Text(
+                                AppLocalizations.of(context)!.booknow,
+                                style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ),

@@ -166,7 +166,7 @@ class LoginPage extends StatelessWidget {
       barrierDismissible:
           false, // Prevent dismissing dialog when tapping outside
       builder: (BuildContext context) {
-        return AlertDialog(
+        return const AlertDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -192,7 +192,7 @@ class LoginPage extends StatelessWidget {
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Invalid phone number')),
+              const SnackBar(content: Text('Invalid phone number')),
             );
           } else {
             print('Error: ${e.message}');
@@ -232,7 +232,7 @@ class LoginPage extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              CompleteInfoPage(user: userModel), // Pass user object
+              CompleteInfoPage(user: userModel, firstTime: true,), // Pass user object
         ),
       );
     } catch (e) {
@@ -251,7 +251,7 @@ class LoginPage extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              CompleteInfoPage(user: userModel), // Pass user object
+              CompleteInfoPage(user: userModel, firstTime: true,), // Pass user object
         ),
       );
     } catch (e) {

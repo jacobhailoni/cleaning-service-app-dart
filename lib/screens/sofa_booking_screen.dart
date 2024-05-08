@@ -148,6 +148,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     _validateFields(context);
                   },
                   style: ButtonStyle(
+                    alignment: Alignment.center,
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tophservices/main.dart';
+import 'package:tophservices/models/user.dart';
+import 'package:tophservices/screens/profileInfoScreen.dart';
 
 class SettingItem {
   final String title;
@@ -17,8 +20,30 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<SettingItem> items = [
-      SettingItem(AppLocalizations.of(context)!.accountSetting, Icons.person,
-          _emptyFunction),
+      SettingItem(
+        AppLocalizations.of(context)!.accountSetting,
+        Icons.person,
+        (context) async {
+          // Retrieve user data from Firestore
+          DocumentSnapshot<Map<String, dynamic>> userDataSnapshot =
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .get();
+
+          // Convert the Firestore data into a UserModel object
+          UserModel userModel = UserModel.fromFirebaseCollection(
+              UserModel.fromMap(userDataSnapshot.data() ?? {}));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CompleteInfoPage(
+                      user: userModel,
+                      firstTime: false,
+                    )),
+          );
+        },
+      ),
       SettingItem(AppLocalizations.of(context)!.language, Icons.language,
           showLanguageChangeDialog),
       SettingItem(AppLocalizations.of(context)!.terms, Icons.file_copy_outlined,

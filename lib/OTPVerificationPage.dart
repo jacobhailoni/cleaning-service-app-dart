@@ -33,7 +33,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   void initState() {
     super.initState();
     // Start the timer when the widget is initialized
-    _timer = Timer(Duration(seconds: 30), () {
+    _timer = Timer(const Duration(seconds: 30), () {
       setState(() {
         _isEnabeled = true;
       });
@@ -51,7 +51,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return const AlertDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -78,7 +78,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         context,
         MaterialPageRoute(
           builder: (context) => CompleteInfoPage(
-            user: UserModel.fromFirebaseUser(userCredential.user!),
+            user: UserModel.fromFirebaseUser(userCredential.user!), firstTime: true,
           ),
         ),
       );
@@ -89,8 +89,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Verification Failed'),
-            content: Text('Failed to verify OTP. Please try again.'),
+            title: const Text('Verification Failed'),
+            content: const Text('Failed to verify OTP. Please try again.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -102,7 +102,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     ),
                   );
                 },
-                child: Text('Try Again'),
+                child: const Text('Try Again'),
               ),
             ],
           );
@@ -123,7 +123,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Invalid phone number')),
+              const SnackBar(content: Text('Invalid phone number')),
             );
           } else {
             print('Error: ${e.message}');
@@ -146,7 +146,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     } catch (e) {
       print("Error resending OTP: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Failed to resend OTP. Please try again.'),
           duration: Duration(seconds: 3),
         ),
@@ -164,7 +164,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.verified_user_outlined,
                 color: Colors.green,
                 size: 250,
@@ -180,7 +180,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               Pinput(
                 showCursor: true,
                 defaultPinTheme: PinTheme(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -188,7 +188,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(3, 173, 246, 0.1),
+                    color: const Color.fromRGBO(3, 173, 246, 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -218,7 +218,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: _isEnabeled
-                            ? Color.fromRGBO(3, 173, 246, 1)
+                            ? const Color.fromRGBO(3, 173, 246, 1)
                             : Colors.black26,
                       ),
                     ),
@@ -227,7 +227,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     seconds: 30,
                     build: (_, double time) => Text(
                       time.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                       ),
                     ),

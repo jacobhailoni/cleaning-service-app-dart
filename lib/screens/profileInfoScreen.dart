@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:tophservices/models/user.dart';
 import 'package:tophservices/screens/MapScreen.dart';
 import 'package:tophservices/widgets/CustomButton.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class CompleteInfoPage extends StatefulWidget {
   final UserModel user;
+  final bool firstTime;
 
   CompleteInfoPage({
     Key? key,
     required this.user,
+    required this.firstTime,
   }) : super(key: key);
 
   @override
@@ -44,7 +47,7 @@ class _CompleteInfoPageState extends State<CompleteInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Complete Info'),
+        title: Text(AppLocalizations.of(context)!.profileinfo),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -53,58 +56,81 @@ class _CompleteInfoPageState extends State<CompleteInfoPage> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.name),
               // Add any necessary validation logic here
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.email,
               ),
               // Add any necessary validation logic here
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _phoneNumberController,
-              decoration: const InputDecoration(labelText: 'Phone Number'),
+              decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.phone),
               // Add any necessary validation logic here
             ),
             const SizedBox(height: 32),
             CustomButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MapScreen(
-                      currentUser: widget.user,
-                      onUpdateLocation: (updatedLocation) {
-                        // Save user's information to Firestore
-                        FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(widget.user.id)
-                            .set(widget.user.toMap())
-                            .then(
-                          (value) {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (route) => false,
-                            );
-                          },
-                        ).catchError(
-                          (error) {
-                            print("Failed to save user's info: $error");
-                            // Handle error
-                          },
-                        );
-                      },
-                      navigateToHomePage: false,
+                Map<String, dynamic> updateData = {
+                  'name': _nameController.text,
+                  'email': _emailController.text,
+                };
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.user.id)
+                    .update(updateData)
+                    .then((value) {
+                  // Data has been successfully updated
+                  print('User data has been successfully updated in Firestore');
+                }).catchError((error) {
+                  // Failed to update data
+                  print('Failed to update user data in Firestore: $error');
+                });
+
+                if (widget.firstTime) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(
+                        currentUser: widget.user,
+                        onUpdateLocation: (updatedLocation) {
+                          // Save user's information to Firestore
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(widget.user.id)
+                              .set(widget.user.toMap())
+                              .then(
+                            (value) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/home',
+                                (route) => false,
+                              );
+                            },
+                          ).catchError(
+                            (error) {
+                              print("Failed to save user's info: $error");
+                              // Handle error
+                            },
+                          );
+                        },
+                        navigateToHomePage: false,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  Navigator.pop(context);
+                }
+                ;
               },
-              text: 'Save',
+              text: AppLocalizations.of(context)!.ok,
             ),
           ],
         ),

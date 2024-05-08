@@ -29,6 +29,24 @@
     "faq" : "FAQ",
     "help" : "Help",
     "logout" : "Log out",
+    "fields" : "Please fill all fields",
+    "alert" : "Alert",
+    "profileinfo": "Profile Info",
+    "name": "Name",
+    "email": "email",
+    "phone": "Phone Number",
+    "bookingdetails": "Booking Details",
+    "servicename": "Service Name",
+    "payment": "Payment Method",
+    "cash": "Cash on Service",
+    "online": "Card / Online",
+    "coupon": "Enter Coupon",
+    "price": "Price",
+    "discount": "Discount",
+    "finalprice": "Final Price",
+    "booknow": "Book Now",
+
     "terms" : "Terms and Conditions"
+
 
 }

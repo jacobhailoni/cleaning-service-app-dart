@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tophservices/firebase_options.dart';
 import 'package:tophservices/l10n/l10n.dart';
 import 'package:tophservices/models/booking_location_model.dart';
@@ -18,207 +19,226 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    runApp( MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-     MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
-    @override
-    _MyAppState createState() => _MyAppState();
+  @override
+  _MyAppState createState() => _MyAppState();
 
-    static void setLocale(BuildContext context, Locale newLocale){
-      _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
-      state?.setLocale(newLocale);
-    }
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
 }
 
 class _MyAppState extends State<MyApp> {
-    // Add your state variables here
-    Locale? _locale;
-    setLocale(Locale locale){
+  Locale? _locale;
+  // Method to set locale and save it to local storage
+  void setLocale(Locale locale) async {
+    setState(() {
+      _locale = locale;
+    });
+    await _saveLocale(locale);
+  }
+
+  Future<void> _saveLocale(Locale locale) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('locale', locale.languageCode);
+  }
+
+  // Method to load the saved locale from local storage
+  Future<void> _loadLocale() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? languageCode = prefs.getString('locale');
+    if (languageCode != null) {
       setState(() {
-        _locale = locale;
+        _locale = Locale(languageCode);
       });
     }
+  }
 
-    @override
-    void initState() {
+  @override
+  void initState() {
     super.initState();
+    _loadLocale();
     // Initialize your state variables here
-    }
+  }
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
-        supportedLocales: L10n.all,
-        locale: _locale,
-        localizationsDelegates: const [
+      supportedLocales: L10n.all,
+      locale: _locale,
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
-        ],
-        debugShowCheckedModeBanner: false,
-        title: 'Top H Services App',
-        theme: ThemeData(fontFamily: 'Alegreya'),
-        home: const SplashScreen(), // Check authentication status
-        routes: {
+      ],
+      debugShowCheckedModeBanner: false,
+      title: 'Top H Services App',
+      theme: ThemeData(fontFamily: 'Alegreya'),
+      home: const SplashScreen(), // Check authentication status
+      routes: {
         '/login': (context) => LoginPage(context: context),
         '/map': (context) {
-            final String userId =
-                ModalRoute.of(context)!.settings.arguments as String;
-            return FutureBuilder<BookingLocation>(
-                future: fetchUserLocation(userId),
-                builder: (context, snapshot) {
+          final String userId =
+              ModalRoute.of(context)!.settings.arguments as String;
+          return FutureBuilder<BookingLocation>(
+              future: fetchUserLocation(userId),
+              builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                    return MapScreen(
+                  return MapScreen(
                     currentUser: UserModel(
-                        id: userId,
-                        name: '',
-                        email: '',
-                        phoneNumber: '',
-                        userLocation: BookingLocation(
+                      id: userId,
+                      name: '',
+                      email: '',
+                      phoneNumber: '',
+                      userLocation: BookingLocation(
                         location: snapshot.data!.location,
                         buildingNumber: snapshot.data!.buildingNumber,
                         apartmentNumber: snapshot.data!.apartmentNumber,
                         administrativeArea: snapshot.data!.administrativeArea,
-                        ),
+                      ),
                     ),
                     onUpdateLocation: (BookingLocation) {},
                     navigateToHomePage: true,
-                    );
+                  );
                 } else {
-                    return Container();
+                  return Container();
                 }
-                });
+              });
         },
         '/home': (context) {
-            final userId = ModalRoute.of(context)!.settings.arguments.toString();
-            return GFHomeScreen(userId: userId, index: 0,);
+          final userId = ModalRoute.of(context)!.settings.arguments.toString();
+          return GFHomeScreen(
+            userId: userId,
+            index: 0,
+          );
         },
         '/booking': (context) {
-            final Service service =
-            ModalRoute.of(context)!.settings.arguments as Service;
-            return CphBookingScreen(service: service);
+          final Service service =
+              ModalRoute.of(context)!.settings.arguments as Service;
+          return CphBookingScreen(service: service);
         }, // Add route for the booking screen
-        },
+      },
     );
-    }
+  }
 }
 
 class GFHomeScreen extends StatefulWidget {
-    final String userId;
-    final int index;
+  final String userId;
+  final int index;
 
-    const GFHomeScreen({required this.userId, required this.index});
+  const GFHomeScreen({required this.userId, required this.index});
 
-    @override
-    _GFHomeScreenState createState() => _GFHomeScreenState();
+  @override
+  _GFHomeScreenState createState() => _GFHomeScreenState();
 }
 
 class _GFHomeScreenState extends State<GFHomeScreen> {
-    int _selectedIndex = 0;
+  int _selectedIndex = 0;
 
-
-
-    @override
-    void initState() {
+  @override
+  void initState() {
     super.initState();
     _selectedIndex = widget.index;
     FirebaseAuth.instance.authStateChanges().listen(
-        (User? user) {
+      (User? user) {
         if (user == null) {
-            // User is not signed in, navigate to login screen
-            Navigator.of(context).pushReplacementNamed('/login');
+          // User is not signed in, navigate to login screen
+          Navigator.of(context).pushReplacementNamed('/login');
         }
-        },
+      },
     );
-    }
+  }
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: IndexedStack(
+      body: IndexedStack(
         index: _selectedIndex,
         children: [
-            HomePage(userId: widget.userId), // Pass the userId here
-            UserBookingsScreen(userId: widget.userId),
-            ProfileScreen(),
+          HomePage(userId: widget.userId), // Pass the userId here
+          UserBookingsScreen(userId: widget.userId),
+          const ProfileScreen(),
         ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
+      ),
+      bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 18,
         unselectedFontSize: 16,
         selectedItemColor: const Color.fromRGBO(3, 173, 246, 1),
         elevation: 20,
         unselectedItemColor: Colors.black38,
-        items:  <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: const Icon(
-                Icons.home_rounded,
+              Icons.home_rounded,
             ),
             label: AppLocalizations.of(context)!.home,
-            ),
-            BottomNavigationBarItem(
+          ),
+          BottomNavigationBarItem(
             icon: const Icon(
-                Icons.bookmark,
+              Icons.bookmark,
             ),
             label: AppLocalizations.of(context)!.bookings,
-            ),
-            BottomNavigationBarItem(
+          ),
+          BottomNavigationBarItem(
             icon: const Icon(
-                Icons.account_circle,
+              Icons.account_circle,
             ),
             label: AppLocalizations.of(context)!.profile,
-            ),
+          ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        ),
+      ),
     );
-    }
+  }
 
-    void _onItemTapped(int index) {
+  void _onItemTapped(int index) {
     if (index == _selectedIndex) {
-        return;
+      return;
     } else {
-        setState(() {
+      setState(() {
         _selectedIndex = index;
-        });
+      });
     }
-    }
+  }
 }
 
 Future<BookingLocation> fetchUserLocation(String userId) async {
-    try {
+  try {
     // Reference to the user location document in Firestore
     DocumentSnapshot<Map<String, dynamic>> locationDoc =
-    await FirebaseFirestore.instance.collection('users').doc(userId).get();
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
     // Check if the document exists
     if (locationDoc.exists) {
-        // Extract data from the document
-        Map<String, dynamic> data = locationDoc.data()!;
+      // Extract data from the document
+      Map<String, dynamic> data = locationDoc.data()!;
 
-        // Create a BookingLocation object from the data
-        BookingLocation location = BookingLocation(
+      // Create a BookingLocation object from the data
+      BookingLocation location = BookingLocation(
         location: data['location'] ?? '',
         buildingNumber: data['buildingNumber'] ?? '',
         apartmentNumber: data['apartmentNumber'] ?? '',
         administrativeArea: data['administrativeArea'] ?? '',
-        );
+      );
 
-        return location;
+      return location;
     } else {
-        // Document does not exist
-        throw Exception('User location not found for user ID: $userId');
+      // Document does not exist
+      throw Exception('User location not found for user ID: $userId');
     }
-    } catch (error) {
+  } catch (error) {
     // Handle error
     print('Error fetching user location: $error');
     rethrow; // Re-throw the error for the caller to handle
-    }
+  }
 }
