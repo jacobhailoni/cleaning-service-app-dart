@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "358101611411-muoalkp4c7gq8dfr99647b7qpdqkmk4e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tophservices",
+            "certificate_hash": "27e3df28c22d158cec435a9e9b0a1cc0a1014d02"
+          }
+        },
+        {
+          "client_id": "358101611411-p1g1st0s4pd952o2e6shsppnhav2tjfq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tophservices",
+            "certificate_hash": "3c71c17be90c985a8a6e7a6da829e2de1e3570fa"
+          }
+        },
+        {
           "client_id": "358101611411-49l9h71g289thbqsea2lo0mkfgu7ekea.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -83,6 +99,14 @@
           "android_info": {
             "package_name": "com.iplugin.tophservices",
             "certificate_hash": "3c71c17be90c985a8a6e7a6da829e2de1e3570fa"
+          }
+        },
+        {
+          "client_id": "358101611411-n8sdpq3i67751ef3tl1ugq8a1nsscku6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iplugin.tophservices",
+            "certificate_hash": "b85a359c4fba95271d6f997ca21b8080540ad696"
           }
         },
         {

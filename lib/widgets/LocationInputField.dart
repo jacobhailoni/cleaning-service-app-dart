@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:tophservices/models/booking_location_model.dart';
 import 'package:tophservices/models/user.dart';
 import 'package:tophservices/screens/MapScreen.dart';
@@ -73,7 +75,7 @@ class LocationInputField extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Colors.white),
@@ -81,15 +83,20 @@ class LocationInputField extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.location_on),
-            SizedBox(width: 8.0),
+            const Icon(Icons.location_on),
+            const SizedBox(width: 8.0),
             Expanded(
               // Added Expanded to allow the text field to take up remaining space
               child: FutureBuilder<Map<String, String?>>(
                 future: getLocationDetails(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const GFLoader(
+                      type: GFLoaderType.android,
+                      loaderIconOne: Text('Please'),
+                      loaderIconTwo: Text('Wait'),
+                      loaderIconThree: Text('a moment'),
+                    );
                   } else {
                     if (snapshot.hasData) {
                       return SingleChildScrollView(
@@ -98,11 +105,11 @@ class LocationInputField extends StatelessWidget {
                             .horizontal, // Set scroll direction to horizontal
                         child: Text(
                           '${snapshot.data!['buildingName']} , ${snapshot.data!['apartmentNumber']}',
-                          style: TextStyle(fontSize: 15),
+                          style: const TextStyle(fontSize: 15),
                         ),
                       );
                     } else {
-                      return Text('Location not available');
+                      return const Text('Location not available');
                     }
                   }
                 },

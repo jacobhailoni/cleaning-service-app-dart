@@ -17,25 +17,32 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (service.name == 'Cleaning Per Hour') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  CphBookingScreen(service: service, currentuser: currentuser),
-            ),
-          );
-        } else if (service.name == 'Sofa Cleaning') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  SofaBookingScreen(service: service, currentuser: currentuser),
-            ),
-          );
-        } else
-          null;
+      onTap: () async {
+        try {
+          if (service.name == 'Cleaning Per Hour') {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CphBookingScreen(
+                  service: service,
+                  currentuser: currentuser,
+                ),
+              ),
+            );
+          } else if (service.name == 'Sofa Cleaning') {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SofaBookingScreen(
+                  service: service,
+                  currentuser: currentuser,
+                ),
+              ),
+            );
+          }
+        } finally {
+          // If needed, you can add code here to perform any actions after navigation
+        }
       },
       child: Card(
         elevation: 3,
@@ -50,7 +57,9 @@ class ServiceCard extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: const Color.fromRGBO(3, 173, 246, 1), width: 1),
+                      color: const Color.fromRGBO(3, 173, 246, 1),
+                      width: 1,
+                    ),
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage(service.image_url),
@@ -69,17 +78,19 @@ class ServiceCard extends StatelessWidget {
                       Text(
                         service.name,
                         style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Alegreya'),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Alegreya',
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         service.description,
                         style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: 'Alegreya'),
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontFamily: 'Alegreya',
+                        ),
                       ),
                     ],
                   ),
@@ -87,6 +98,16 @@ class ServiceCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoaderDialog() {
+    return const Dialog(
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Color.fromRGBO(3, 173, 246, 1),
         ),
       ),
     );

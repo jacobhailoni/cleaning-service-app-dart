@@ -525,6 +525,19 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
     );
   }
 
+  // void _sendBookingConfirmationSMS(Booking booking) {
+  //   String message = '''
+  //     Thank you for booking our service!
+  //     Service: ${booking.serviceName}
+  //     Date: ${DateFormat('E, dd MMM yy').format(booking.date)}
+  //     Time: ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? 'AM' : 'PM'}
+  //     Hours: ${booking.hours}
+  //     Maids Count: ${booking.maidsCount}
+  //     With Materials: ${booking.withMaterials ? 'Yes' : 'No'}
+  //     Total Price: ${booking.totalPrice}
+  //   ''';
+  // }
+
   void _applyCoupon(List<Coupon> coupons) {
     String couponCode = _couponController.text.trim();
     if (couponCode.isNotEmpty) {

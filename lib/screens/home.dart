@@ -17,13 +17,14 @@ Future<List<DocumentSnapshot>> fetchServices() async {
         await FirebaseFirestore.instance.collection('services').get();
     return querySnapshot.docs;
   } catch (e) {
+    print('Error fetching services: $e');
     return [];
   }
 }
 
 class HomePage extends StatefulWidget {
   final String userId; // Accept user ID
-  const HomePage({Key? key, required this.userId}) : super(key: key);
+  HomePage({Key? key, required this.userId}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -34,6 +35,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    print(
+        'done**********************************${widget.userId}***************************************************');
+
     super.initState();
     currentUser = UserModel(
         id: widget.userId,
@@ -46,8 +50,13 @@ class _HomePageState extends State<HomePage> {
             apartmentNumber: '',
             administrativeArea: ''));
     try {
+      print(
+          'done**********************************from init***************************************************');
+
       _loadUserData();
-    } catch (e) {}
+    } catch (e) {
+      print('Error in initState: $e');
+    }
   }
 
   void _updateLocationInfo(BookingLocation newLocation) {
@@ -61,6 +70,9 @@ class _HomePageState extends State<HomePage> {
   // Load user data from local storage
   void _loadUserData() async {
     if (currentUser == null || currentUser!.id.isEmpty) {
+      print(
+          '*************************************** EMPTY**********************************');
+      print(currentUser!.email + currentUser!.id);
       return;
     }
 
@@ -70,14 +82,22 @@ class _HomePageState extends State<HomePage> {
               .collection('users')
               .doc(currentUser!.id)
               .get();
+      print(
+          'done*************************************${currentUser!.id}****R********************************************');
 
       if (userSnapshot.exists) {
         Map<String, dynamic> userDataMap = userSnapshot.data()!;
         setState(() {
           currentUser = UserModel.fromMap(userDataMap);
         });
-      } else {}
-    } catch (e) {}
+        print(
+            'done*************************************************************************************');
+      } else {
+        print('User data not found in Firestore');
+      }
+    } catch (e) {
+      print('Error loading user data from Firestore: $e');
+    }
   }
 
   // Save user data to local storage

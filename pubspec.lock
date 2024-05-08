@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "0763b45fa9294197a2885c8567927e2830ade852e5c896fd4ab7e0e348d0f373"
+      sha256: ecf4273855368121b1caed0d10d4513c7241dfc813f7d3c8933b36622ae9b265
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.0"
+    version: "3.5.1"
   args:
     dependency: transitive
     description:
@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: bottom_picker
-      sha256: eb43cd6afda954e1d6269b87a92f061d298b0beba1b8378e9a5a3af35c1657d5
+      sha256: d42841f22403ca26408cb92c6a0799e58faf08e2febff80d855e009b82b4de25
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.7.0"
   carousel_slider:
     dependency: "direct main"
     description:
@@ -101,26 +101,26 @@ packages:
     dependency: "direct main"
     description:
       name: cloud_firestore
-      sha256: ed89b3103dc35234dfb513af9e4f8f9fb0608e6e06cc93b77489e23f38a52f93
+      sha256: "58ea77912e355cfd4e49f858e01d5ab4f99c7181ebd545b3fbeae25d6677dff6"
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.10"
+    version: "4.17.2"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
-      sha256: "31c60ecb186c8356cca417e4151d6c383eb81c92933e3a0f3a9509688f5ec319"
+      sha256: "9cb7d350c08c3d4987d34f418037aca3882649cdad5158440b4b932232edcf82"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.11"
+    version: "6.2.2"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
-      sha256: "9d952d3c8d5b87c34712537154ff7580bdc29b8b9fb3bf43002304999e585653"
+      sha256: "28db029962ebdcb8caf80f0c109f359ebcefa983b85fb62e5a220b1a577d84b5"
       url: "https://pub.dev"
     source: hosted
-    version: "3.10.10"
+    version: "3.12.2"
   collection:
     dependency: transitive
     description:
@@ -149,10 +149,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -181,26 +181,26 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_auth
-      sha256: "376cdf5048e3552afa6e7883334a03450d332c68466759a63f5fcbe990feaecc"
+      sha256: "63b4401c95ddb00fb272872c451147e33509e80eed43937369910ef6c34c00b7"
       url: "https://pub.dev"
     source: hosted
-    version: "4.18.0"
+    version: "4.19.4"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
-      sha256: "316c8dae2aaa5920aa752807a773f06d9b0da48efda2efbae14b93f0ee835ddd"
+      sha256: "4e204f9ef43d83ac9e7a324a9317e4dd2a1ddda2aa72b67bc6cc364f0b8492dc"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.0"
+    version: "7.2.5"
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
-      sha256: "1859c548568fc5f979130c694222504cf255a4b3af5186d1b4d6e5772ae6d08f"
+      sha256: "809a2eb444d1a07c0a680b205b86d713bc7171a4b2627fd6c01cf05f2b6f93cd"
       url: "https://pub.dev"
     source: hosted
-    version: "5.10.1"
+    version: "5.11.4"
   firebase_core:
     dependency: "direct main"
     description:
@@ -306,10 +306,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
-      sha256: b068ffc46f82a55844acfa4fdbb61fad72fa2aef0905548419d97f0f95c456da
+      sha256: "8cf40eebf5dec866a6d1956ad7b4f7016e6c0cc69847ab946833b7d43743809f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.17"
+    version: "2.0.19"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -332,10 +332,10 @@ packages:
     dependency: transitive
     description:
       name: geocoding_android
-      sha256: "4e1539a136c6ab4c44963cfc631970ee499f706a03654fc1d446b2100caf7221"
+      sha256: "1b13eca79b11c497c434678fed109c2be020b158cec7512c848c102bc7232603"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.3.1"
   geocoding_ios:
     dependency: transitive
     description:
@@ -412,26 +412,26 @@ packages:
     dependency: "direct main"
     description:
       name: google_maps_flutter
-      sha256: "982c2e22ec78d32701bfbd351311e8579a4952035381ac66462c0af11003107b"
+      sha256: c1972cbad779bc5346c49045f26ae45550a0958b1cbca5b524dd3c8954995d28
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.6.1"
   google_maps_flutter_android:
     dependency: transitive
     description:
       name: google_maps_flutter_android
-      sha256: "256b3c974e415bd17555ceff76a5d0badd2cbfd29febfc23070993358f639550"
+      sha256: "0bcadb80eba39afda77dede89a6caafd3b68f2786b90491eceea4a01c3db181c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "2.8.0"
   google_maps_flutter_ios:
     dependency: transitive
     description:
       name: google_maps_flutter_ios
-      sha256: "6c50bce26ff73079b4401de5bfe77e89d89138897b9dcc6bdfbc7ada842f2bc1"
+      sha256: e5132d17f051600d90d79d9f574b177c24231da702453a036db2490f9ced4646
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.2"
+    version: "2.6.0"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -444,10 +444,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_web
-      sha256: "861c6dd430123e58bb1154342345c5bfa36064120c8ec3dbc0d0b7522add1861"
+      sha256: "0c0d5c723d94b295cf86dd1c45ff91d2ac1fff7c05ddca4f01bef9fa0a014690"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.6+2"
+    version: "0.5.7"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -460,18 +460,18 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: "38cef11ed22fc0c9bfa7b00bf7f2d91012138f5613089522917fd26c853be93e"
+      sha256: "7647893c65e6720973f0e579051c8f84b877b486614d9f70a404259c41a4632e"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.22"
+    version: "6.1.23"
   google_sign_in_ios:
     dependency: transitive
     description:
       name: google_sign_in_ios
-      sha256: "1e0d4fde6cc07a8ff423f6bc931e83a74163d6af702004bacaee752649fdd2e7"
+      sha256: a058c9880be456f21e2e8571c1126eaacd570bdc5b6c6d9d15aea4bdf22ca9fe
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.5"
+    version: "5.7.6"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -700,18 +700,18 @@ packages:
     dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: "81429e4481e1ccfb51ede496e916348668fd0921627779233bd24cc3ff6abd02"
+      sha256: d3bbe5553a986e83980916ded2f0b435ef2e1893dfaa29d5a7a790d0eca12180
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
   shared_preferences_android:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "8568a389334b6e83415b6aae55378e158fbc2314e074983362d20c562780fb06"
+      sha256: "1ee8bf911094a1b592de7ab29add6f826a7331fb854273d55918693d5364a1f2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -881,10 +881,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "0a989dc7ca2bb51eac91e8fd00851297cfffd641aa7538b165c62637ca0eaa4a"
+      sha256: "0eaf06e3446824099858367950a813472af675116bf63f008a4c2a75ae13e9cb"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.0"
+    version: "5.5.0"
   xdg_directories:
     dependency: transitive
     description:

@@ -26,43 +26,41 @@ Future<TimeOfDay?> showCustomTimePicker({
         isDisabled = true;
       }
 
-      currentRow.add(
-        Expanded(
-          child: InkWell(
-            onTap: isDisabled
-                ? null
-                : () {
-                    result = time;
-                    Navigator.pop(context);
-                  },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: isDisabled
-                      ? Colors.grey.withOpacity(0.5)
-                      : const Color.fromRGBO(3, 173, 246, 1),
-                  width: 1,
+      if (!isDisabled) {
+        // Skip disabled times
+        currentRow.add(
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                result = time;
+                Navigator.pop(context);
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: const Color.fromRGBO(3, 173, 246, 1),
+                    width: 1,
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  '${time.hourOfPeriod}:${time.minute.toString().padLeft(2, '0')} ${time.period == DayPeriod.am ? 'AM' : 'PM'}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDisabled
-                        ? Colors.grey.withOpacity(0.5)
-                        : Colors.black,
+                child: Center(
+                  child: Text(
+                    '${time.hourOfPeriod}:${time.minute.toString().padLeft(2, '0')} ${time.period == DayPeriod.am ? 'AM' : 'PM'}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      }
+
       if (currentRow.length == 2) {
         timeCards.add(Row(children: [...currentRow]));
         currentRow = [];
