@@ -53,6 +53,7 @@ dependencies:
   getwidget: ^2.0.4
   sticky_footer_scrollview: ^1.1.1
   intl: 0.18.1
+  intl_utils: 2.8.7
   pinput: ^4.0.0
   firebase_messaging: ^14.9.1
   flutter_bloc: ^8.0.0

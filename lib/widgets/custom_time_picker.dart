@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 Future<TimeOfDay?> showCustomTimePicker({
   required BuildContext context,
@@ -47,7 +49,7 @@ Future<TimeOfDay?> showCustomTimePicker({
                 ),
                 child: Center(
                   child: Text(
-                    '${time.hourOfPeriod}:${time.minute.toString().padLeft(2, '0')} ${time.period == DayPeriod.am ? 'AM' : 'PM'}',
+                    '${time.hourOfPeriod}:${time.minute.toString().padLeft(2, '0')} ${time.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -77,8 +79,8 @@ Future<TimeOfDay?> showCustomTimePicker({
             const SizedBox(
               height: 7,
             ),
-            const Text(
-              'Select Time',
+             Text(
+              AppLocalizations.of(context)!.time,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             const SizedBox(

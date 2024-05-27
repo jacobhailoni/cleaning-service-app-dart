@@ -45,6 +45,19 @@
     "discount": "الخصم",
     "finalprice": "السعر النهائي",
     "booknow": "احجز الآن",
+    "am": "صباحا",
+    "pm": "مساء",
+    "withmaterials": "مع مواد التنظيف",
+    "withoutmaterials": "بدون مواد التنظيف",
+    "terms" : "الشروط والأحكام",
+    "errmesageHoursMaids": "الرجاء اختيار عدد الساعات وعدد العاملات المطلوب",
+    "errmesageHours": "الرجاء اختيار عدد الساعات",
+    "errmesageLocation": "الرجاء اختيار الموقع",
+    "infmesagemaids": "الرجاء اختيار عدد العاملات الذي تريده",
+    "infmesagehours": "الرجاء اختيار عدد ساعات التنظيف الذي ترغب به",
+    "ourmaterials" : "مواد التنظيف لدينا",
+    "ourmaterialsImg" : "assets/materials-ar.jpg",
+    "bookingcompleted" : "تم الحجز"
 
-    "terms" : "الشروط والأحكام"
+    
 }

@@ -21,7 +21,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
   final TextEditingController _timeController = TextEditingController();
   TimeOfDay _selectedTime = TimeOfDay.now();
   double _totalPrice = 0.0;
-  int _totalSeats = 0;
+  int _totalSeats = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                       ),
                     ),
                     controller: TextEditingController(
-                        text: DateFormat('E, dd MMM yy').format(_selectedDate)),
+                        text: DateFormat('E, dd - MMM - yy', Localizations.localeOf(context).toString()).format(_selectedDate)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -215,7 +215,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
         _selectedTime = picked;
         // Update the text in the input field
         _timeController.text =
-            '${_selectedTime.hourOfPeriod}:${_selectedTime.minute.toString().padLeft(2, '0')} ${_selectedTime.period == DayPeriod.am ? 'AM' : 'PM'}';
+            '${_selectedTime.hourOfPeriod}:${_selectedTime.minute.toString().padLeft(2, '0')} ${_selectedTime.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}';
       });
     }
   }

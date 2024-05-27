@@ -97,24 +97,17 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SingleChildScrollView(
                       child: SafeArea(
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                               GFTypography(
-                                text: AppLocalizations.of(context)!.bookingdetails,
-                                showDivider: false,
-                                type: GFTypographyType.typo1,
-                                fontWeight: FontWeight.bold,
-                                textColor: const Color.fromRGBO(3, 173, 246, 1),
-                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -147,7 +140,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                     width: 10,
                                   ),
                                   Text(
-                                    '${DateFormat('E, dd MMM yy').format(booking.date)} - ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? 'AM' : 'PM'}',
+                                    '${DateFormat('E, dd - MMM - yy', Localizations.localeOf(context).toString()).format(booking.date)} | ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}',
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -210,8 +203,8 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                             ),
                                             Text(
                                               booking.withMaterials
-                                                  ? 'With Materials'
-                                                  : 'Without Materials',
+                                                  ? AppLocalizations.of(context)!.withmaterials
+                                                  : AppLocalizations.of(context)!.withoutmaterials,
                                               style:
                                                   const TextStyle(fontSize: 20),
                                             ),

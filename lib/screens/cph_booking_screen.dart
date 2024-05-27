@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -11,7 +10,6 @@ import 'package:tophservices/widgets/hour_selection.dart';
 import 'package:tophservices/widgets/maid_selection.dart';
 import 'package:tophservices/widgets/custom_time_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-
 
 class CphBookingScreen extends StatefulWidget {
   final Service service;
@@ -35,17 +33,21 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
 
   final user = FirebaseAuth.instance.currentUser;
   void _handleHourSelection(double selectedHour) {
-    setState(() {
-      _selectedHour = selectedHour;
-      _calculatePrice(); // Calculate total price when hour selection changes
-    });
+    setState(
+      () {
+        _selectedHour = selectedHour;
+        _calculatePrice(); // Calculate total price when hour selection changes
+      },
+    );
   }
 
   void _handleMaidSelection(double selectedMaidIndex) {
-    setState(() {
-      _selectedMaid = selectedMaidIndex + 1;
-      _calculatePrice(); // Calculate total price when maid selection changes
-    });
+    setState(
+      () {
+        _selectedMaid = selectedMaidIndex + 1;
+        _calculatePrice(); // Calculate total price when maid selection changes
+      },
+    );
   }
 
   void _calculatePrice() async {
@@ -62,9 +64,11 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
     double totalPrice = hourPrice * totalHours;
 
     // Update the state with the calculated total price
-    setState(() {
-      _totalPrice = totalPrice;
-    });
+    setState(
+      () {
+        _totalPrice = totalPrice;
+      },
+    );
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -94,9 +98,11 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
       lastDate: DateTime(2100),
     );
     if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
+      setState(
+        () {
+          _selectedDate = picked;
+        },
+      );
     }
   }
 
@@ -107,12 +113,14 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
       selectedDate: _selectedDate,
     );
     if (picked != null && picked != _selectedTime) {
-      setState(() {
-        _selectedTime = picked;
-        // Update the text in the input field
-        _timeController.text =
-            '${_selectedTime.hourOfPeriod}:${_selectedTime.minute.toString().padLeft(2, '0')} ${_selectedTime.period == DayPeriod.am ? 'AM' : 'PM'}';
-      });
+      setState(
+        () {
+          _selectedTime = picked;
+          // Update the text in the input field
+          _timeController.text =
+              '${_selectedTime.hourOfPeriod}:${_selectedTime.minute.toString().padLeft(2, '0')} ${_selectedTime.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}';
+        },
+      );
     }
   }
 
@@ -139,30 +147,14 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       'Location:      ${widget.currentuser?.userLocation.buildingNumber}',
-                  //       style: const TextStyle(
-                  //           fontSize: 18, fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ],
-                  // ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-
                   TextFormField(
                     style: const TextStyle(fontSize: 20),
                     readOnly: true,
                     onTap: () => _selectDate(context),
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                       AppLocalizations.of(context)!.date,
+                        AppLocalizations.of(context)!.date,
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -186,11 +178,14 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                       ),
                     ),
                     controller: TextEditingController(
-                        text: DateFormat('E, dd MMM yy').format(_selectedDate)),
+                        text: DateFormat(
+                      'E, dd - MMM - yy',
+                      Localizations.localeOf(context).toString(),
+                    ).format(_selectedDate)),
                   ),
                   Row(
                     children: [
-                       Text(
+                      Text(
                         AppLocalizations.of(context)!.maidsnumber,
                         style: const TextStyle(
                           fontSize: 18,
@@ -198,9 +193,10 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                         ),
                       ),
                       IconButton(
-                          onPressed: () => _showInfoMessage(
-                              context, 'Please select how many maids you want'),
-                          icon: const Icon(Icons.help_outline_outlined))
+                        onPressed: () => _showInfoMessage(context,
+                            AppLocalizations.of(context)!.infmesagemaids),
+                        icon: const Icon(Icons.help_outline_outlined),
+                      )
                     ],
                   ),
                   MaidSelection(
@@ -208,7 +204,7 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                   ),
                   Row(
                     children: [
-                     Text(
+                      Text(
                         AppLocalizations.of(context)!.cleaninghours,
                         style: const TextStyle(
                           fontSize: 18,
@@ -217,14 +213,13 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                       ),
                       IconButton(
                           onPressed: () => _showInfoMessage(context,
-                              'Please select how many hours you want the maids'),
+                              AppLocalizations.of(context)!.infmesagehours),
                           icon: const Icon(Icons.help_outline_outlined))
                     ],
                   ),
                   HourSelection(
                     onHourSelected: _handleHourSelection,
                   ),
-
                   const SizedBox(
                     height: 10,
                   ),
@@ -234,10 +229,10 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                     cursorColor: const Color.fromRGBO(3, 173, 246, 1),
                     readOnly: true,
                     onTap: () => _selectTime(context),
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                         AppLocalizations.of(context)!.startingtime,
+                        AppLocalizations.of(context)!.startingtime,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -266,13 +261,14 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _withMaterials = !_withMaterials;
-                        _calculatePrice();
-                      });
+                      setState(
+                        () {
+                          _withMaterials = !_withMaterials;
+                          _calculatePrice();
+                        },
+                      );
                     },
                     child: Row(
                       children: [
@@ -297,8 +293,8 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                 Text(
-                                   AppLocalizations.of(context)!.withmaterils,
+                                Text(
+                                  AppLocalizations.of(context)!.withmaterils,
                                   style: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
@@ -306,21 +302,24 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                                   ),
                                 ),
                                 IconButton(
-                                    onPressed: () =>
-                                        _showMaterialsMessage(context),
-                                    icon: const Icon(
-                                      Icons.help_outline_outlined,
-                                      color: Colors.black,
-                                    )),
+                                  onPressed: () =>
+                                      _showMaterialsMessage(context),
+                                  icon: const Icon(
+                                    Icons.help_outline_outlined,
+                                    color: Colors.black,
+                                  ),
+                                ),
                                 const SizedBox(
                                   width: 20,
                                 ),
                                 GFCheckbox(
                                   onChanged: (value) {
-                                    setState(() {
-                                      _withMaterials = value;
-                                      _calculatePrice();
-                                    });
+                                    setState(
+                                      () {
+                                        _withMaterials = value;
+                                        _calculatePrice();
+                                      },
+                                    );
                                   },
                                   value: _withMaterials,
                                   activeBgColor:
@@ -347,7 +346,7 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '${ AppLocalizations.of(context)!.totalprice}: $_totalPrice ${AppLocalizations.of(context)!.aed}',
+                  '${AppLocalizations.of(context)!.totalprice}: $_totalPrice ${AppLocalizations.of(context)!.aed}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -362,9 +361,10 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color.fromRGBO(3, 173, 246, 1)),
                   ),
-                  label:  Text(
+                  label: Text(
                     AppLocalizations.of(context)!.next,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   icon: const Icon(
                     Icons.navigate_next_rounded,
@@ -383,13 +383,19 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
     if (_selectedHour == 0.0 || _selectedMaid == 0.0) {
       _showErrorMessage(
         context,
-        'Please select both hours and number of maids.',
+        AppLocalizations.of(context)!.errmesageHoursMaids,
       );
     } else if (_timeController.text.isEmpty) {
-      _showErrorMessage(context, 'Please select a time.');
+      _showErrorMessage(
+        context,
+        AppLocalizations.of(context)!.errmesageHours,
+      );
     } else if (widget.currentuser?.userLocation.buildingNumber == null ||
         widget.currentuser!.userLocation.buildingNumber.isEmpty) {
-      _showErrorMessage(context, 'Please select a location.');
+      _showErrorMessage(
+        context,
+        AppLocalizations.of(context)!.errmesageLocation,
+      );
     } else {
       // All required fields are selected, proceed with booking
       final Booking booking = Booking(
@@ -412,30 +418,6 @@ class _CphBookingScreenState extends State<CphBookingScreen> {
       );
     }
   }
-
-  void _bookService() {
-    // Perform Firestore operation to add booking
-    FirebaseFirestore.instance.collection('bookings').add({
-      'userId': user!.uid, // Get user ID from Firebase Authentication
-      'serviceName': widget.service.name,
-      'date': _selectedDate,
-      'time': {'hour': _selectedTime.hour, 'minute': _selectedTime.minute},
-      'hours': _selectedHour,
-      'maidsCount': _selectedMaid,
-      'withMaterials': _withMaterials,
-      'totalPrice': _totalPrice,
-    }).then((value) {
-      const AlertDialog(
-        content: Text('Added Successfully'),
-      );
-      // Success, show a success message or navigate to another screen
-    }).catchError((error) {
-      // Handle error
-      AlertDialog(
-        content: Text('$error'),
-      );
-    });
-  }
 }
 
 void _showErrorMessage(BuildContext context, String message) {
@@ -443,14 +425,14 @@ void _showErrorMessage(BuildContext context, String message) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Alert'),
+        title: Text(AppLocalizations.of(context)!.alert),
         content: Text(message),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(); // Dismiss the dialog
             },
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context)!.ok),
           ),
         ],
       );
@@ -463,18 +445,19 @@ void _showInfoMessage(BuildContext context, String message) {
     context: context,
     builder: (BuildContext context) {
       return SizedBox(
-        height: 60, // Adjust the height as needed
+        height: 200, // Adjust the height as needed
         child: Center(
-            child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text(
-            message,
-            style: const TextStyle(
-              color: Color.fromRGBO(3, 173, 246, 1),
-              fontSize: 16,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: Color.fromRGBO(3, 173, 246, 1),
+                fontSize: 16,
+              ),
             ),
           ),
-        )),
+        ),
       );
     },
   );
@@ -485,18 +468,22 @@ void _showMaterialsMessage(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return SizedBox(
-          height: 330, // Adjust the height as needed
-          child: Center(
-            child: Column(children: [
-              const Text(
-                'Our Materials',
-                style: TextStyle(fontWeight: FontWeight.bold),
+        height: 350, // Adjust the height as needed
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                AppLocalizations.of(context)!.ourmaterials,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Padding(
                   padding: const EdgeInsets.all(5),
-                  child: Image.asset('assets/materials-en.jpg'))
-            ]),
-          ));
+                  child: Image.asset(
+                      AppLocalizations.of(context)!.ourmaterialsImg))
+            ],
+          ),
+        ),
+      );
     },
   );
 }

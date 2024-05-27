@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tophservices/main.dart';
 import 'package:tophservices/models/user.dart';
 import 'package:tophservices/screens/profileInfoScreen.dart';
+import 'package:tophservices/widgets/CustomButton.dart';
 
 class SettingItem {
   final String title;
@@ -47,14 +48,13 @@ class ProfileScreen extends StatelessWidget {
       SettingItem(AppLocalizations.of(context)!.language, Icons.language,
           showLanguageChangeDialog),
       SettingItem(AppLocalizations.of(context)!.terms, Icons.file_copy_outlined,
-          _emptyFunction),
+          showterms),
       SettingItem(AppLocalizations.of(context)!.privacyPolicy, Icons.lock,
           _emptyFunction),
-      SettingItem(AppLocalizations.of(context)!.faq,
-          Icons.question_answer_outlined, _emptyFunction),
+      // SettingItem(AppLocalizations.of(context)!.faq,
+      //     Icons.question_answer_outlined, _emptyFunction),
       SettingItem(AppLocalizations.of(context)!.help, Icons.help_center,
           _emptyFunction),
-      // Changed the title of the last item to "Log Out" instead of "Sign Out"
       SettingItem(AppLocalizations.of(context)!.logout, Icons.logout_outlined,
           _signOut),
     ];
@@ -79,9 +79,11 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () => item.onTap(context),
                       child: Container(
                         decoration: const BoxDecoration(
-                            color: Color.fromRGBO(3, 173, 246, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
+                          color: Color.fromRGBO(3, 173, 246, 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
@@ -125,6 +127,36 @@ class ProfileScreen extends StatelessWidget {
   void _emptyFunction(BuildContext context) {
     // Empty function, does nothing
   }
+
+  void showterms(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          AppLocalizations.of(context)!.terms,
+        ),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: SingleChildScrollView(
+            child: Text(
+              AppLocalizations.of(context)!.privacy_policy,
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          CustomButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            text: AppLocalizations.of(context)!.ok,
+          ),
+        ],
+      );
+    },
+  );
+}
+
   void showLanguageChangeDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -138,8 +170,10 @@ class ProfileScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(AppLocalizations.of(context)!.english,
-                          style: const TextStyle(fontSize: 22)),
+                      Text(
+                        AppLocalizations.of(context)!.english,
+                        style: const TextStyle(fontSize: 22),
+                      ),
                       const Text(
                         '🇺🇸',
                         style: TextStyle(fontSize: 22),
@@ -147,11 +181,16 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    changeLocale(context, const Locale('en'));
+                    changeLocale(
+                      context,
+                      const Locale('en'),
+                    );
                     Navigator.of(context).pop();
                   },
                 ),
-                const Padding(padding: EdgeInsets.all(8.0)),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                ),
                 GestureDetector(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tophservices/models/booking_model.dart';
 import 'package:tophservices/widgets/CustomButton.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class BookingCompletionScreen extends StatelessWidget {
   final Booking booking;
@@ -16,9 +17,9 @@ class BookingCompletionScreen extends StatelessWidget {
         iconTheme: const IconThemeData(
           color: Colors.white, // Change this color to the desired color
         ),
-        title: const Text(
-          'Booking Completed',
-          style: TextStyle(color: Colors.white),
+        title:  Text(
+          AppLocalizations.of(context)!.bookingcompleted,
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF03ADF6),
       ),
@@ -36,13 +37,22 @@ class BookingCompletionScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Booking Completed',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.bookingcompleted,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(
-                'Date: ${DateFormat('E, dd MMM yyyy').format(booking.date)}\nTime: ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? 'AM' : 'PM'}',
+                DateFormat(
+                  'E, dd - MMM - yy',
+                  Localizations.localeOf(context).toString(),
+                ).format(booking.date),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 18),
+              ),
+              Text(
+                '${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 18),
               ),
@@ -58,7 +68,7 @@ class BookingCompletionScreen extends StatelessWidget {
                       arguments: booking.userId, // Pass userId as an argument
                     );
                   },
-                  text: 'OK',
+                  text: AppLocalizations.of(context)!.ok,
                 ),
               ),
             ],

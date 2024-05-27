@@ -45,8 +45,22 @@
     "discount": "Discount",
     "finalprice": "Final Price",
     "booknow": "Book Now",
+    "am": "AM",
+    "pm": "PM",
+    "withmaterials": "With Materials",
+    "errmesageHoursMaids": "Please select both hours and number of maids.",
+    "errmesageHours": "Please select a time.",
+    "errmesageLocation": "Please Select your location",
+    "infmesagemaids": "Please select how many maids you want",
+    "infmesagehours": "Please select how many hours you want the maids",
+    "ourmaterials" : "Our Materials",
+    "ourmaterialsImg" : "assets/materials-en.jpg",
+    "bookingcompleted" : "Booking Completed",
+  "privacy_policy": "At Top H Services, we are committed to protecting the privacy of our users. This Privacy Policy outlines the types of personal information we collect, how we use it, and the measures we take to safeguard your information when you use our mobile application (\u201cApp\u201d) to book cleaning services.\n\nInformation We Collect:\nWhen you use our App, we may collect the following types of information:\nPersonal Information: This may include your name, email address, phone number, billing information, and other relevant contact details necessary for booking and communication purposes.\nUsage Information: We may collect information about how you interact with our App, such as the pages you visit, the features you use, and the actions you take.\nDevice Information: We may collect information about your device, including device type, operating system, unique device identifiers, and mobile network information.\n\nHow We Use Your Information:\nWe may use the information we collect for the following purposes:\nTo provide and improve our services, including processing bookings, managing accounts, and personalizing your experience.\nTo communicate with you, including responding to inquiries, sending service-related notifications, and marketing communications (where permitted by law).\nTo analyze trends and user behavior, monitor the effectiveness of our services, and make improvements.\nTo comply with legal obligations and enforce our policies.\n\nInformation Sharing:\nWe may share your information in the following circumstances:\nWith service providers and business partners who assist us in delivering our services.\nWith law enforcement authorities, government agencies, or authorized third parties in response to legal requests or to protect our rights or the rights of others.\nIn connection with a merger, acquisition, or sale of assets, where your information may be transferred as part of the transaction.\nWith your consent or as otherwise permitted or required by law.\n\nData Security:\nWe take reasonable measures to protect your information from unauthorized access, disclosure, alteration, or destruction. However, please note that no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.\n\nThird-Party Links and Services:\nOur App may contain links to third-party websites or services that are not owned or controlled by us. This Privacy Policy does not apply to such third-party sites or services, and we are not responsible for their privacy practices. We encourage you to review the privacy policies of those third parties before providing any information.\n\nChildren’s Privacy:\nOur services are not directed to children under the age of 13, and we do not knowingly collect personal information from children. If you are a parent or guardian and become aware that your child has provided us with personal information, please contact us, and we will take steps to delete such information.\n\nChanges to this Privacy Policy:\nWe may update this Privacy Policy from time to time to reflect changes in our practices or applicable laws. We will notify you of any material changes by posting the updated Privacy Policy on our App or by other means. Your continued use of the App after the effective date of the updated Privacy Policy constitutes your acceptance of the changes.\n\nContact Us:\nIf you have any questions or concerns about this Privacy Policy or our practices regarding your information, please contact us at [Insert Contact Information].\n\nBy using our App, you consent to the collection, use, and sharing of your information as described in this Privacy Policy.",
+
+
+    "withoutmaterials": "Without Materials",
+
 
     "terms" : "Terms and Conditions"
-
-
 }

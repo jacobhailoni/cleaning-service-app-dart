@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pinput/pinput.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:tophservices/models/user.dart';
+import 'package:tophservices/screens/admin_screen.dart';
 import 'package:tophservices/screens/loginPage.dart';
 import 'package:tophservices/screens/profileInfoScreen.dart';
 import 'package:tophservices/widgets/CustomButton.dart';
@@ -13,7 +15,7 @@ class OTPVerificationPage extends StatefulWidget {
   final int? resendToken;
   final String phoneNumber;
 
-  OTPVerificationPage({
+  const OTPVerificationPage({
     Key? key,
     required this.verificationId,
     this.resendToken,
@@ -74,14 +76,22 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       Navigator.pop(context);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CompleteInfoPage(
-            user: UserModel.fromFirebaseUser(userCredential.user!), firstTime: true,
+      if (checkAdmin(userCredential.user!.uid) == true) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CompleteInfoPage(
+              user: UserModel.fromFirebaseUser(userCredential.user!),
+              firstTime: true,
+            ),
           ),
-        ),
-      );
+        );
+      }
     } catch (e) {
       print("Error verifying OTP: $e");
       Navigator.pop(context);
@@ -244,5 +254,25 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         ),
       ),
     );
+  }
+
+  Future<bool> checkAdmin(String id) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(id).get();
+
+      if (userSnapshot.exists) {
+        // Check if the user is an admin based on the value of 'isAdmin' field
+        bool isAdmin = userSnapshot.data()?['isAdmin'] ?? false;
+        return isAdmin;
+      } else {
+        // If the document doesn't exist, user is not an admin
+        return false;
+      }
+    } catch (e) {
+      // Handle any potential errors
+      print("Error checking admin status: $e");
+      return false;
+    }
   }
 }

@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tophservices/OTPVerificationPage.dart';
 import 'package:tophservices/auth_service.dart'; // Import AuthService for authentication logic
 import 'package:tophservices/models/user.dart';
+import 'package:tophservices/screens/admin_screen.dart';
 import 'package:tophservices/screens/profileInfoScreen.dart'; // Import CompleteInfoPage
 
 class LoginPage extends StatelessWidget {
@@ -228,13 +230,20 @@ class LoginPage extends StatelessWidget {
       // Call signInWithFacebook method from AuthService
       final UserModel userModel = await _authService.signInWithFacebook();
       // Navigate to CompleteInfoPage after successful Facebook authentication
-      Navigator.pushReplacement(
+      if (checkAdmin(userModel.id) == true) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) =>
               CompleteInfoPage(user: userModel, firstTime: true,), // Pass user object
         ),
       );
+      }
     } catch (e) {
       // Handle login error
       print("Error logging in with Facebook: $e");
@@ -247,16 +256,43 @@ class LoginPage extends StatelessWidget {
       // Call signInWithGoogle method from AuthService
       final UserModel userModel = await _authService.signInWithGoogle();
       // Navigate to CompleteInfoPage after successful Google authentication
-      Navigator.pushReplacement(
+      if (checkAdmin(userModel.id) == true) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) =>
               CompleteInfoPage(user: userModel, firstTime: true,), // Pass user object
         ),
       );
+      }
     } catch (e) {
       // Handle login error
       print("Error logging in with Google: $e");
+    }
+  }
+
+   Future<bool> checkAdmin(String id) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(id).get();
+
+      if (userSnapshot.exists) {
+        // Check if the user is an admin based on the value of 'isAdmin' field
+        bool isAdmin = userSnapshot.data()?['isAdmin'] ?? false;
+        return isAdmin;
+      } else {
+        // If the document doesn't exist, user is not an admin
+        return false;
+      }
+    } catch (e) {
+      // Handle any potential errors
+      print("Error checking admin status: $e");
+      return false;
     }
   }
 }
