@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 class UserBookingsScreen extends StatelessWidget {
   final String userId;
 
-  const UserBookingsScreen({required this.userId});
+  const UserBookingsScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {

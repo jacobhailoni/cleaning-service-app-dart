@@ -36,12 +36,14 @@ class _MapScreenState extends State<MapScreen> {
   TextEditingController streetController = TextEditingController();
   TextEditingController buildingNameController = TextEditingController();
   TextEditingController apartmentNumberController = TextEditingController();
+  String area = '';
 
   @override
   void initState() {
     super.initState();
     selectedLocation = const LatLng(23.4241, 53.8478);
     _locateMe();
+    print(widget.currentUser!.id);
   }
 
   @override
@@ -234,6 +236,7 @@ class _MapScreenState extends State<MapScreen> {
           if (placemarks.isNotEmpty) {
             String streetName = placemarks.first.street ?? '';
             streetController.text = streetName;
+            area = placemarks[0].administrativeArea ?? '';
           }
         } catch (e) {
           // Handle any errors that may occur
@@ -261,8 +264,7 @@ class _MapScreenState extends State<MapScreen> {
     try {
       // Convert selectedLocation to a String representation
       String locationString =
-          '${selectedLocation.latitude},${selectedLocation.longitude}';
-
+          'https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitude},${selectedLocation.longitude}';
       // Update location details in Firestore
       await FirebaseFirestore.instance
           .collection('users')
@@ -272,10 +274,14 @@ class _MapScreenState extends State<MapScreen> {
           'location': locationString,
           'buildingNumber': buildingNameController.text,
           'apartmentNumber': apartmentNumberController.text,
+          'administrativeArea': area
           // Include any other fields you want to update
         },
       });
-
+      print(locationString +
+          buildingNameController.text +
+          apartmentNumberController.text +
+          area);
       // Show success dialog
       _showDialog('Success', 'Location updated successfully.');
     } catch (e) {

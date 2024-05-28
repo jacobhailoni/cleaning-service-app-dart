@@ -25,7 +25,7 @@ Future<List<DocumentSnapshot>> fetchServices() async {
 
 class HomePage extends StatefulWidget {
   final String userId; // Accept user ID
-  HomePage({Key? key, required this.userId}) : super(key: key);
+  const HomePage({Key? key, required this.userId}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -36,9 +36,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    print(
-        'done**********************************${widget.userId}***************************************************');
-
     super.initState();
     currentUser = UserModel(
         id: widget.userId,
@@ -51,9 +48,6 @@ class _HomePageState extends State<HomePage> {
             apartmentNumber: '',
             administrativeArea: ''));
     try {
-      print(
-          'done**********************************from init***************************************************');
-
       _loadUserData();
     } catch (e) {
       print('Error in initState: $e');
@@ -70,29 +64,18 @@ class _HomePageState extends State<HomePage> {
 
   // Load user data from local storage
   void _loadUserData() async {
-    if (currentUser == null || currentUser!.id.isEmpty) {
-      print(
-          '*************************************** EMPTY**********************************');
-      print(currentUser!.email + currentUser!.id);
-      return;
-    }
-
     try {
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
           await FirebaseFirestore.instance
               .collection('users')
               .doc(currentUser!.id)
               .get();
-      print(
-          'done*************************************${currentUser!.id}****R********************************************');
 
       if (userSnapshot.exists) {
         Map<String, dynamic> userDataMap = userSnapshot.data()!;
         setState(() {
           currentUser = UserModel.fromMap(userDataMap);
         });
-        print(
-            'done*************************************************************************************');
       } else {
         print('User data not found in Firestore');
       }
@@ -110,100 +93,98 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-        return Scaffold(
-          body: Stack(
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: screenHeight * 0.2 + kToolbarHeight,
-                    child: AppBar(
-                      toolbarHeight: screenHeight * 0.2,
-                      title: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
-                        child: LocationInputField(
-                          currentUser: currentUser,
-                          onUpdateLocation: _updateLocationInfo,
-                        ),
-                      ),
-                      backgroundColor: const Color.fromRGBO(3, 173, 246, 1),
-                      elevation: 0,
-                      actions: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
-                          child: Image.asset(
-                            'assets/logo.png',
-                            width: 90,
-                            height: 90,
-                          ),
-                        ),
-                      ],
+              SizedBox(
+                height: screenHeight * 0.2 + kToolbarHeight,
+                child: AppBar(
+                  toolbarHeight: screenHeight * 0.2,
+                  title: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
+                    child: LocationInputField(
+                      currentUser: currentUser,
+                      onUpdateLocation: _updateLocationInfo,
                     ),
                   ),
-                ],
-              ),
-              Positioned(
-                top: MediaQuery.of(context).padding.top + kToolbarHeight,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, kToolbarHeight, 0, 0),
-                  child: Column(
-                    children: [
-                      ImageSlider(),
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      //   child: ImageSlider(),
-                      // ),
-                      // const Center(
-                      //   child: Text(
-                      //     'Our Services',
-                      //     style:
-                      //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      //   ),
-                      // ),
-                      Expanded(
-                        child: FutureBuilder<List<DocumentSnapshot>>(
-                          future: fetchServices(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const GFLoader(
-                                type: GFLoaderType.android,
-                                loaderIconOne: Text('Please'),
-                                loaderIconTwo: Text('Wait'),
-                                loaderIconThree: Text('a moment'),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else {
-                              return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  Map<String, dynamic> serviceData =
-                                      snapshot.data![index].data()
-                                          as Map<String, dynamic>;
-
-                                  var service = Service.fromSnapshot(
-                                      serviceData,
-                                      AppLocalizations.of(context)!.localeName);
-                                  return ServiceCard(
-                                      service: service,
-                                      currentuser: currentUser);
-                                },
-                              );
-                            }
-                          },
-                        ),
+                  backgroundColor: const Color.fromRGBO(3, 173, 246, 1),
+                  elevation: 0,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        width: 90,
+                        height: 90,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-        );
-      }
+          Positioned(
+            top: MediaQuery.of(context).padding.top + kToolbarHeight,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, kToolbarHeight, 0, 0),
+              child: Column(
+                children: [
+                  ImageSlider(),
+                  // Padding(
+                  //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //   child: ImageSlider(),
+                  // ),
+                  // const Center(
+                  //   child: Text(
+                  //     'Our Services',
+                  //     style:
+                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
+                  Expanded(
+                    child: FutureBuilder<List<DocumentSnapshot>>(
+                      future: fetchServices(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const GFLoader(
+                            type: GFLoaderType.android,
+                            loaderIconOne: Text('Please'),
+                            loaderIconTwo: Text('Wait'),
+                            loaderIconThree: Text('a moment'),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              Map<String, dynamic> serviceData =
+                                  snapshot.data![index].data()
+                                      as Map<String, dynamic>;
+
+                              var service = Service.fromSnapshot(serviceData,
+                                  AppLocalizations.of(context)!.localeName);
+                              return ServiceCard(
+                                  service: service, currentuser: currentUser);
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
+}

@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pinput/pinput.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:tophservices/models/user.dart';
-import 'package:tophservices/screens/admin_screen.dart';
+import 'package:tophservices/screens/admin/admin_screen.dart';
 import 'package:tophservices/screens/loginPage.dart';
 import 'package:tophservices/screens/profileInfoScreen.dart';
 import 'package:tophservices/widgets/CustomButton.dart';
@@ -242,9 +242,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                       ),
                     ),
                     onFinished: () {
-                      setState(() {
-                        _isEnabeled = true;
-                      });
+                      setState(
+                        () {
+                          _isEnabeled = true;
+                        },
+                      );
                     },
                   ),
                 ],

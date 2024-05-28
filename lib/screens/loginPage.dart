@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tophservices/OTPVerificationPage.dart';
 import 'package:tophservices/auth_service.dart'; // Import AuthService for authentication logic
 import 'package:tophservices/models/user.dart';
-import 'package:tophservices/screens/admin_screen.dart';
+import 'package:tophservices/screens/admin/admin_screen.dart';
 import 'package:tophservices/screens/profileInfoScreen.dart'; // Import CompleteInfoPage
 
 class LoginPage extends StatelessWidget {
@@ -237,12 +237,14 @@ class LoginPage extends StatelessWidget {
         );
       } else {
         Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              CompleteInfoPage(user: userModel, firstTime: true,), // Pass user object
-        ),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => CompleteInfoPage(
+              user: userModel,
+              firstTime: true,
+            ), // Pass user object
+          ),
+        );
       }
     } catch (e) {
       // Handle login error
@@ -255,20 +257,24 @@ class LoginPage extends StatelessWidget {
     try {
       // Call signInWithGoogle method from AuthService
       final UserModel userModel = await _authService.signInWithGoogle();
+      bool isAdmin = await checkAdmin(userModel.id);
       // Navigate to CompleteInfoPage after successful Google authentication
-      if (checkAdmin(userModel.id) == true) {
+      if (isAdmin) {
+        print('True from inside');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const AdminScreen()),
         );
       } else {
         Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              CompleteInfoPage(user: userModel, firstTime: true,), // Pass user object
-        ),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => CompleteInfoPage(
+              user: userModel,
+              firstTime: true,
+            ), // Pass user object
+          ),
+        );
       }
     } catch (e) {
       // Handle login error
@@ -276,7 +282,7 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-   Future<bool> checkAdmin(String id) async {
+  Future<bool> checkAdmin(String id) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
           await FirebaseFirestore.instance.collection('users').doc(id).get();
@@ -284,6 +290,7 @@ class LoginPage extends StatelessWidget {
       if (userSnapshot.exists) {
         // Check if the user is an admin based on the value of 'isAdmin' field
         bool isAdmin = userSnapshot.data()?['isAdmin'] ?? false;
+        print(isAdmin);
         return isAdmin;
       } else {
         // If the document doesn't exist, user is not an admin

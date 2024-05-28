@@ -7,7 +7,6 @@ import 'package:tophservices/models/coupon_model.dart';
 import 'package:tophservices/screens/booking_confirmation_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
-
 class BookingDetailsScreen extends StatelessWidget {
   final Booking booking;
 
@@ -151,7 +150,8 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                               Column(
                                 children: [
                                   if (booking.serviceName ==
-                                      'Cleaning Per Hour' || booking.serviceName ==  'تنظيف بالساعة')
+                                          'Cleaning Per Hour' ||
+                                      booking.serviceName == 'تنظيف بالساعة')
                                     Column(
                                       children: [
                                         Row(
@@ -203,8 +203,12 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                             ),
                                             Text(
                                               booking.withMaterials
-                                                  ? AppLocalizations.of(context)!.withmaterials
-                                                  : AppLocalizations.of(context)!.withoutmaterials,
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .withmaterials
+                                                  : AppLocalizations.of(
+                                                          context)!
+                                                      .withoutmaterials,
                                               style:
                                                   const TextStyle(fontSize: 20),
                                             ),
@@ -216,7 +220,8 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                       ],
                                     )
                                   else if (booking.serviceName ==
-                                      'Sofa Cleaning' || booking.serviceName == 'تنظيف الكنب')
+                                          'Sofa Cleaning' ||
+                                      booking.serviceName == 'تنظيف الكنب')
                                     Column(
                                       children: [
                                         Row(
@@ -261,8 +266,9 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                               const SizedBox(
                                 height: 20,
                               ),
-                               GFTypography(
-                                text: '${AppLocalizations.of(context)!.payment}:',
+                              GFTypography(
+                                text:
+                                    '${AppLocalizations.of(context)!.payment}:',
                                 showDivider: false,
                                 type: GFTypographyType.typo1,
                                 fontWeight: FontWeight.bold,
@@ -306,7 +312,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                     onChanged: (value) {
                                       // This won't be called as the widget is disabled
                                     },
-                                    title:  Text(
+                                    title: Text(
                                       AppLocalizations.of(context)!.online,
                                       style: const TextStyle(fontSize: 18),
                                     ),
@@ -335,18 +341,21 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.bold),
                                             readOnly: false,
-                                            decoration:  InputDecoration(
+                                            decoration: InputDecoration(
                                               focusColor: const Color.fromRGBO(
                                                   3, 173, 246, 1),
                                               label: Text(
-                                                AppLocalizations.of(context)!.coupon,
+                                                AppLocalizations.of(context)!
+                                                    .coupon,
                                                 style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black),
                                               ),
-                                              border: const OutlineInputBorder(),
-                                              focusedBorder: const OutlineInputBorder(
+                                              border:
+                                                  const OutlineInputBorder(),
+                                              focusedBorder:
+                                                  const OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     width: 2,
                                                     color: Color.fromRGBO(
@@ -404,7 +413,8 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${AppLocalizations.of(context)!.price}: ${booking.totalPrice.toInt()}  ${AppLocalizations.of(context)!.aed}',
+                          Text(
+                              '${AppLocalizations.of(context)!.price}: ${booking.totalPrice.toInt()}  ${AppLocalizations.of(context)!.aed}',
                               style: const TextStyle(fontSize: 20)),
                           Text(
                               '${AppLocalizations.of(context)!.discount}:  ${(booking.totalPrice * _discount) ~/ 100}   ${AppLocalizations.of(context)!.aed}  -',
@@ -436,7 +446,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                 Icons.bookmark_add_rounded,
                                 size: 40,
                               ),
-                              label:  Text(
+                              label: Text(
                                 AppLocalizations.of(context)!.booknow,
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -466,7 +476,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
         'apartmentNumber': widget.booking.location.apartmentNumber,
         'administrativeArea': widget.booking.location.administrativeArea,
       },
-      'date': widget.booking.date,
+      'date': DateFormat('dd MMM yyy').format(widget.booking.date).toString(),
       'time': {
         'hour': widget.booking.time.hour,
         'minute': widget.booking.time.minute,

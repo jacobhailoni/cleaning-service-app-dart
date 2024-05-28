@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tophservices/main.dart';
 import 'package:tophservices/screens/loginPage.dart';
+
+import 'admin/admin_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -27,19 +30,23 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  void checkAuthentication() {
+  void checkAuthentication() async {
     // Get the current user
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       // If user is logged in, navigate to home page
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => GFHomeScreen(
-            userId: user.uid,
-            index: 0
+      bool isAdmin = await checkAdmin(user.uid);
+      if (isAdmin) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const AdminScreen()),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => GFHomeScreen(userId: user.uid, index: 0),
           ),
-        ),
-      );
+        );
+      }
     } else {
       // If user is not logged in, navigate to login page
       Navigator.of(context).pushReplacement(
@@ -95,5 +102,26 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       ),
     );
+  }
+
+  Future<bool> checkAdmin(String id) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(id).get();
+
+      if (userSnapshot.exists) {
+        // Check if the user is an admin based on the value of 'isAdmin' field
+        bool isAdmin = userSnapshot.data()?['isAdmin'] ?? false;
+        print(isAdmin);
+        return isAdmin;
+      } else {
+        // If the document doesn't exist, user is not an admin
+        return false;
+      }
+    } catch (e) {
+      // Handle any potential errors
+      print("Error checking admin status: $e");
+      return false;
+    }
   }
 }
