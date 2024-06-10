@@ -14,35 +14,6 @@ class AuthService {
 
   AuthService(this.context);
 
-  // Future<void> signInWithPhoneNumber(
-  //     BuildContext context, String phoneNumber) async {
-  //   try {
-  //     final String formattedPhoneNumber = '+971$phoneNumber';
-  //     await _auth.verifyPhoneNumber(
-  //       phoneNumber: formattedPhoneNumber,
-  //       codeSent: (String verificationId, int? resendToken) {
-  //         // Navigate to OTP verification page
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => OTPVerificationPage(
-  //               verificationId: verificationId,
-  //               phoneNumber: phoneNumber,
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
-  //       verificationFailed: (FirebaseAuthException error) {},
-  //       codeAutoRetrievalTimeout: (String verificationId) {},
-  //       // Handle other verification callbacks...
-  //     );
-  //   } catch (e) {
-  //     // Handle login error
-  //     print("Error logging in with phone: $e");
-  //   }
-  // }
-
   Future<UserModel> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();

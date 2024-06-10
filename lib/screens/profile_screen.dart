@@ -26,20 +26,19 @@ class ProfileScreen extends StatelessWidget {
         Icons.person,
         (context) async {
           // Retrieve user data from Firestore
-          DocumentSnapshot<Map<String, dynamic>> userDataSnapshot =
-              await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .get();
+          // DocumentSnapshot<Map<String, dynamic>> userDataSnapshot =
+          //     await FirebaseFirestore.instance
+          //         .collection('users')
+          //         .doc(FirebaseAuth.instance.currentUser!.uid)
+          //         .get();
 
-          // Convert the Firestore data into a UserModel object
-          UserModel userModel = UserModel.fromFirebaseCollection(
-              UserModel.fromMap(userDataSnapshot.data() ?? {}));
+          // UserModel userModel = UserModel.fromSnapshot(userDataSnapshot);
+          // print('Does user exist? ${userDataSnapshot.data.toString()}');
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CompleteInfoPage(
-                      user: userModel,
+                      userId: FirebaseAuth.instance.currentUser!.uid,
                       firstTime: false,
                     )),
           );
@@ -129,33 +128,33 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void showterms(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.terms,
-        ),
-        content: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: SingleChildScrollView(
-            child: Text(
-              AppLocalizations.of(context)!.privacy_policy,
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            AppLocalizations.of(context)!.terms,
+          ),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: SingleChildScrollView(
+              child: Text(
+                AppLocalizations.of(context)!.privacy_policy,
+              ),
             ),
           ),
-        ),
-        actions: <Widget>[
-          CustomButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            text: AppLocalizations.of(context)!.ok,
-          ),
-        ],
-      );
-    },
-  );
-}
+          actions: <Widget>[
+            CustomButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              text: AppLocalizations.of(context)!.ok,
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void showLanguageChangeDialog(BuildContext context) {
     showDialog(

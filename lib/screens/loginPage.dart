@@ -240,7 +240,7 @@ class LoginPage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => CompleteInfoPage(
-              user: userModel,
+              userId: userModel.id,
               firstTime: true,
             ), // Pass user object
           ),
@@ -257,10 +257,18 @@ class LoginPage extends StatelessWidget {
     try {
       // Call signInWithGoogle method from AuthService
       final UserModel userModel = await _authService.signInWithGoogle();
+      DocumentSnapshot<Map<String, dynamic>> userDataSnapshot =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get();
+
+      // Convert the Firestore data into a UserModel object
+      UserModel actualuserModel = UserModel.fromFirebaseCollection(
+          UserModel.fromMap(userDataSnapshot.data() ?? {}));
       bool isAdmin = await checkAdmin(userModel.id);
       // Navigate to CompleteInfoPage after successful Google authentication
       if (isAdmin) {
-        print('True from inside');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const AdminScreen()),
@@ -270,7 +278,7 @@ class LoginPage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => CompleteInfoPage(
-              user: userModel,
+              userId: actualuserModel.id,
               firstTime: true,
             ), // Pass user object
           ),

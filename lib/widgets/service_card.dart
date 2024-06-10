@@ -19,17 +19,19 @@ class ServiceCard extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         try {
-          if (service.name == 'Cleaning Per Hour' || service.name == 'تنظيف بالساعة') {
+          if (service.name == 'Cleaning Per Hour' ||
+              service.name == 'تنظيف بالساعة') {
             await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => CphBookingScreen(
                   service: service,
-                  currentuser: currentuser,
+                  currentUser: currentuser,
                 ),
               ),
             );
-          } else if (service.name == 'Sofa Cleaning' || service.name == 'تنظيف الكنب') {
+          } else if (service.name == 'Sofa Cleaning' ||
+              service.name == 'تنظيف الكنب') {
             await Navigator.push(
               context,
               MaterialPageRoute(
@@ -49,10 +51,10 @@ class ServiceCard extends StatelessWidget {
         color: Colors.white,
         child: SizedBox(
           height: 100, // Square size
-          child: Row(
+          child: Column(
             children: [
               Expanded(
-                flex: 1, // 2/3 of the height
+                flex: 2, // 2/3 of the height
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                   decoration: BoxDecoration(
@@ -69,7 +71,7 @@ class ServiceCard extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 2, // 1/3 of the height
+                flex: 1, // 1/3 of the height
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -83,15 +85,15 @@ class ServiceCard extends StatelessWidget {
                           fontFamily: 'Alegreya',
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        service.description,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontFamily: 'Alegreya',
-                        ),
-                      ),
+                      // const SizedBox(height: 8),
+                      // Text(
+                      //   service.description,
+                      //   style: const TextStyle(
+                      //     color: Colors.black,
+                      //     fontSize: 15,
+                      //     fontFamily: 'Alegreya',
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:intl/intl.dart';
 import 'package:tophservices/models/booking_model.dart';
 import 'package:tophservices/models/coupon_model.dart';
 import 'package:tophservices/screens/booking_confirmation_screen.dart';
@@ -9,8 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class BookingDetailsScreen extends StatelessWidget {
   final Booking booking;
+  final String serviceName;
 
-  const BookingDetailsScreen({super.key, required this.booking});
+  const BookingDetailsScreen({super.key, required this.booking, required this.serviceName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +25,16 @@ class BookingDetailsScreen extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFF03ADF6),
       ),
-      body: BookingDetailsForm(booking: booking),
+      body: BookingDetailsForm(booking: booking, serviceName: serviceName,),
     );
   }
 }
 
 class BookingDetailsForm extends StatefulWidget {
   final Booking booking;
+  final String serviceName;
 
-  const BookingDetailsForm({super.key, required this.booking});
+  const BookingDetailsForm({super.key, required this.booking, required this.serviceName});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -120,7 +121,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                     width: 10,
                                   ),
                                   Text(
-                                    '${AppLocalizations.of(context)!.servicename}: ${booking.serviceName}',
+                                    '${AppLocalizations.of(context)!.servicename}: ${widget.serviceName}',
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -139,7 +140,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                     width: 10,
                                   ),
                                   Text(
-                                    '${DateFormat('E, dd - MMM - yy', Localizations.localeOf(context).toString()).format(booking.date)} | ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}',
+                                    '${booking.date} | ${booking.time.hourOfPeriod}:${booking.time.minute.toString().padLeft(2, '0')} ${booking.time.period == DayPeriod.am ? AppLocalizations.of(context)!.am : AppLocalizations.of(context)!.pm}',
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -149,9 +150,9 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                               ),
                               Column(
                                 children: [
-                                  if (booking.serviceName ==
+                                  if (widget.serviceName ==
                                           'Cleaning Per Hour' ||
-                                      booking.serviceName == 'تنظيف بالساعة')
+                                      widget.serviceName == 'تنظيف بالساعة')
                                     Column(
                                       children: [
                                         Row(
@@ -219,9 +220,9 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                         ),
                                       ],
                                     )
-                                  else if (booking.serviceName ==
+                                  else if (widget.serviceName ==
                                           'Sofa Cleaning' ||
-                                      booking.serviceName == 'تنظيف الكنب')
+                                      widget.serviceName == 'تنظيف الكنب')
                                     Column(
                                       children: [
                                         Row(
@@ -257,7 +258,7 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
                                   Flexible(
                                     child: Text(
                                       booking.location.buildingNumber,
-                                      style: const TextStyle(fontSize: 15),
+                                      style: const TextStyle(fontSize: 20),
                                       softWrap: true,
                                     ),
                                   )
@@ -469,14 +470,14 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
   void _bookService() {
     FirebaseFirestore.instance.collection('bookings').add({
       'userId': widget.booking.userId,
-      'serviceName': widget.booking.serviceName,
+      'serviceId': widget.booking.serviceID,
       'location': {
         'location': widget.booking.location.location,
         'buildingNumber': widget.booking.location.buildingNumber,
         'apartmentNumber': widget.booking.location.apartmentNumber,
         'administrativeArea': widget.booking.location.administrativeArea,
       },
-      'date': DateFormat('dd MMM yyy').format(widget.booking.date).toString(),
+      'date': widget.booking.date,
       'time': {
         'hour': widget.booking.time.hour,
         'minute': widget.booking.time.minute,
@@ -496,22 +497,6 @@ class _BookingDetailsFormState extends State<BookingDetailsForm> {
     }).catchError((error) {
       _showErrorDialog(error);
     });
-  }
-
-  void _showSuccessDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content: const Text('Booking added successfully.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   void _showErrorDialog(dynamic error) {

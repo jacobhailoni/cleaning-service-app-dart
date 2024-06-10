@@ -171,19 +171,34 @@ class _AdminBookingDetailsState extends State<AdminBookingDetails> {
                     AppLocalizations.of(context)!.phone,
                     style: const TextStyle(fontSize: 20),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      launchPhoneCall(currentUser!.phoneNumber);
-                    },
-                    child: Text(
-                      currentUser!.phoneNumber,
-                      style: const TextStyle(
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  Row(
+                    children: [
+                      IconButton(
+                        color: Colors.white,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color.fromRGBO(3, 173, 246, 1)),
+                        ),
+                        onPressed: () async {
+                          await launchPhoneCall(currentUser!.phoneNumber);
+                        },
+                        icon: const Icon(Icons.call),
+                      ),
+                      IconButton(
+                        color: Colors.white,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color.fromRGBO(0, 177, 106, 1)),
+                        ),
+                        onPressed: () async {
+                          Uri whatsappUrl = Uri.parse(
+                              'https://wa.me/${currentUser!.phoneNumber}');
+                          await _launchUrl(whatsappUrl);
+                        },
+                        icon: const Icon(Icons.chat),
+                      )
+                    ],
+                  ),
                 ],
               ),
               Row(
@@ -207,18 +222,47 @@ class _AdminBookingDetailsState extends State<AdminBookingDetails> {
                     AppLocalizations.of(context)!.area,
                     style: const TextStyle(fontSize: 20),
                   ),
-                  GestureDetector(
-                    onTap: () {
+                  IconButton(
+                    onPressed: () {
                       Uri locationUrl =
                           Uri.parse(currentUser!.userLocation.location);
                       _launchUrl(locationUrl);
                     },
-                    child: const Icon(
-                      Icons.location_on,
-                      size: 30,
-                      color: Colors.blueAccent,
+                    icon: const Icon(Icons.location_on),
+                    color: Colors.white,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color.fromRGBO(0, 177, 106, 1)),
                     ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.building,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    currentUser!.userLocation.buildingNumber,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.apartment,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    currentUser!.userLocation.apartmentNumber,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ],

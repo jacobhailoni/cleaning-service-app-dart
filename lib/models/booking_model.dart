@@ -5,9 +5,9 @@ import 'package:tophservices/models/booking_location_model.dart';
 class Booking {
   final String id;
   final String userId;
-  final String serviceName;
+  final String serviceID;
   final BookingLocation location;
-  final DateTime date;
+  final String date;
   final TimeOfDay time;
   final double hours;
   final int maidsCount;
@@ -17,7 +17,7 @@ class Booking {
   Booking({
     required this.id,
     required this.userId,
-    required this.serviceName,
+    required this.serviceID,
     required this.location,
     required this.date,
     required this.time,
@@ -33,7 +33,6 @@ class Booking {
   factory Booking.fromFirebase(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     TimeOfDay mapToTimeOfDay(Map<String, dynamic> timeMap) {
-      if (timeMap == null) return TimeOfDay(hour: 0, minute: 0);
       return TimeOfDay(hour: timeMap['hour'], minute: timeMap['minute']);
     }
 
@@ -49,9 +48,9 @@ class Booking {
     return Booking(
       id: doc.id,
       userId: data['userId'] ?? '',
-      serviceName: data['serviceName'] ?? '',
+      serviceID: data['serviceId'] ?? '',
       location: location,
-      date: (data['date'] as Timestamp).toDate(),
+      date: data['date'] ?? '',
       time: mapToTimeOfDay(data['time']), // Use the function to convert
       hours: (data['hours'] ?? 0).toDouble(),
       maidsCount: data['maidsCount'] ?? 0,

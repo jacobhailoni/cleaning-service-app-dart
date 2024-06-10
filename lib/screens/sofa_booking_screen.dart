@@ -7,7 +7,6 @@ import 'package:tophservices/screens/BookingDetailsScreen.dart';
 import 'package:tophservices/widgets/custom_time_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
-
 class SofaBookingScreen extends StatefulWidget {
   final Service service;
   final UserModel? currentuser;
@@ -50,7 +49,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     style: const TextStyle(fontSize: 20),
                     readOnly: true,
                     onTap: () => _selectDate(context),
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
                         AppLocalizations.of(context)!.date,
@@ -77,7 +76,9 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                       ),
                     ),
                     controller: TextEditingController(
-                        text: DateFormat('E, dd - MMM - yy', Localizations.localeOf(context).toString()).format(_selectedDate)),
+                        text: DateFormat('E, dd - MMM - yy',
+                                Localizations.localeOf(context).toString())
+                            .format(_selectedDate)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -97,10 +98,10 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     cursorColor: const Color.fromRGBO(3, 173, 246, 1),
                     readOnly: true,
                     onTap: () => _selectTime(context),
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       focusColor: const Color.fromRGBO(3, 173, 246, 1),
                       label: Text(
-                       AppLocalizations.of(context)!.time,
+                        AppLocalizations.of(context)!.time,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -154,9 +155,10 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color.fromRGBO(3, 173, 246, 1)),
                   ),
-                  label:  Text(
-                   AppLocalizations.of(context)!.next,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  label: Text(
+                    AppLocalizations.of(context)!.next,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   icon: const Icon(
                     Icons.navigate_next_rounded,
@@ -243,9 +245,9 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
       final Booking booking = Booking(
         id: '', // Let Firestore generate the ID
         userId: widget.currentuser!.id,
-        serviceName: widget.service.name,
+        serviceID: widget.service.id,
         location: widget.currentuser!.userLocation,
-        date: _selectedDate,
+        date: DateFormat('dd MMM yyyy').format(_selectedDate),
         time: _selectedTime,
         hours: _totalSeats.toDouble(),
         maidsCount: 0,
@@ -255,7 +257,7 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => BookingDetailsScreen(booking: booking)),
+            builder: (context) => BookingDetailsScreen(booking: booking, serviceName: widget.service.name,)),
       );
     }
     ;
@@ -273,7 +275,9 @@ class _SofaBookingScreenState extends State<SofaBookingScreen> {
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
-              child:  Text(AppLocalizations.of(context)!.ok,),
+              child: Text(
+                AppLocalizations.of(context)!.ok,
+              ),
             ),
           ],
         );

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:tophservices/models/user.dart';
@@ -20,7 +20,7 @@ class OTPVerificationPage extends StatefulWidget {
     required this.verificationId,
     this.resendToken,
     required this.phoneNumber,
-  });
+  }) : super(key: key);
 
   @override
   _OTPVerificationPageState createState() => _OTPVerificationPageState();
@@ -28,23 +28,23 @@ class OTPVerificationPage extends StatefulWidget {
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
   final TextEditingController otpController = TextEditingController();
-  bool _isEnabeled = false;
+  bool _isResendEnabled = false;
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    // Start the timer when the widget is initialized
     _timer = Timer(const Duration(seconds: 30), () {
       setState(() {
-        _isEnabeled = true;
+        _isResendEnabled = true;
       });
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel(); // Cancel the timer in the dispose method
+    _timer.cancel();
+    otpController.dispose();
     super.dispose();
   }
 
@@ -76,7 +76,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       Navigator.pop(context);
-      if (checkAdmin(userCredential.user!.uid) == true) {
+      if (await checkAdmin(userCredential.user!.uid)) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const AdminScreen()),
@@ -86,7 +86,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           context,
           MaterialPageRoute(
             builder: (context) => CompleteInfoPage(
-              user: UserModel.fromFirebaseUser(userCredential.user!),
+              userId: UserModel.fromFirebaseUser(userCredential.user!).id,
               firstTime: true,
             ),
           ),
@@ -167,7 +167,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('OTP Verification'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -219,20 +221,23 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 height: 15,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: _isEnabeled ? () => _resendOTP(context) : null,
+                    onPressed:
+                        _isResendEnabled ? () => _resendOTP(context) : null,
                     child: Text(
                       'Didn\'t receive code? Resend',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: _isEnabeled
+                        color: _isResendEnabled
                             ? const Color.fromRGBO(3, 173, 246, 1)
                             : Colors.black26,
                       ),
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Countdown(
                     seconds: 30,
                     build: (_, double time) => Text(
@@ -242,11 +247,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                       ),
                     ),
                     onFinished: () {
-                      setState(
-                        () {
-                          _isEnabeled = true;
-                        },
-                      );
+                      setState(() {
+                        _isResendEnabled = true;
+                      });
                     },
                   ),
                 ],

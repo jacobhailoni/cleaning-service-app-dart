@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tophservices/models/booking_location_model.dart';
 
@@ -92,7 +93,19 @@ class UserModel {
       ),
     );
   }
-    factory UserModel.fromFirebaseCollection(UserModel? user) {
+
+  factory UserModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    Map<String, dynamic> data = snapshot.data()!;
+    return UserModel(
+      id: snapshot.id,
+      name: data['name'] ?? '',
+      email: data['email'] ?? '',
+      phoneNumber: data['phoneNumber'] ?? '',
+      userLocation: BookingLocation.fromJson(data['userLocation'] ?? {}),
+    );
+  }
+  factory UserModel.fromFirebaseCollection(UserModel? user) {
     return UserModel(
       id: user!.id,
       name: user.name,

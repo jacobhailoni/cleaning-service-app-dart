@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tophservices/models/booking_model.dart';
 import 'package:tophservices/widgets/CustomButton.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
@@ -17,7 +16,7 @@ class BookingCompletionScreen extends StatelessWidget {
         iconTheme: const IconThemeData(
           color: Colors.white, // Change this color to the desired color
         ),
-        title:  Text(
+        title: Text(
           AppLocalizations.of(context)!.bookingcompleted,
           style: const TextStyle(color: Colors.white),
         ),
@@ -44,10 +43,7 @@ class BookingCompletionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                DateFormat(
-                  'E, dd - MMM - yy',
-                  Localizations.localeOf(context).toString(),
-                ).format(booking.date),
+                booking.date,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 18),
               ),

@@ -30,4 +30,13 @@ class BookingLocation {
       'administrativeArea': administrativeArea, // New field
     };
   }
+
+  factory BookingLocation.fromJson(Map<String, dynamic> json) {
+    return BookingLocation(
+      location: json['location'] ?? '',
+      buildingNumber: json['buildingNumber'] ?? '',
+      apartmentNumber: json['apartmentNumber'] ?? '',
+      administrativeArea: json['administrativeArea'] ?? '',
+    );
+  }
 }

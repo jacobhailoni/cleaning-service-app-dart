@@ -1,18 +1,18 @@
-import 'dart:convert';
+// ignore_for_file: library_private_types_in_public_api
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tophservices/models/booking_location_model.dart';
 import 'package:tophservices/models/service_model.dart';
 import 'package:tophservices/models/user.dart';
 import 'package:tophservices/widgets/LocationInputField.dart';
-import 'package:tophservices/widgets/service_card.dart';
+import 'package:tophservices/widgets/serviceScreen.dart';
 import 'package:tophservices/widgets/slider.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
-Future<List<DocumentSnapshot>> fetchServices() async {
+// Renamed fetchServices to getServices to better reflect the function's purpose.
+Future<List<DocumentSnapshot>> getServices() async {
   try {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('services').get();
@@ -24,20 +24,23 @@ Future<List<DocumentSnapshot>> fetchServices() async {
 }
 
 class HomePage extends StatefulWidget {
-  final String userId; // Accept user ID
-  const HomePage({Key? key, required this.userId}) : super(key: key);
+  final String userId;
+  const HomePage({super.key, required this.userId});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late UserModel? currentUser; // Change to nullable UserModel
+  // Added comments to explain the purpose of each function
+  UserModel?
+      _currentUser; // Renamed to _currentUser to indicate its private nature
 
+  // Initializes the user data, loads user information from local storage, and handles errors.
   @override
   void initState() {
     super.initState();
-    currentUser = UserModel(
+    _currentUser = UserModel(
         id: widget.userId,
         name: '',
         email: '',
@@ -54,27 +57,28 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Updates the user's location information and rebuilds the UI.
   void _updateLocationInfo(BookingLocation newLocation) {
-    if (currentUser != null) {
+    if (_currentUser != null) {
       setState(() {
-        currentUser!.userLocation = newLocation;
+        _currentUser!.userLocation = newLocation;
       });
     }
   }
 
-  // Load user data from local storage
+  // Loads user data from Firebase Firestore and updates the UI.
   void _loadUserData() async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
           await FirebaseFirestore.instance
               .collection('users')
-              .doc(currentUser!.id)
+              .doc(_currentUser!.id)
               .get();
 
       if (userSnapshot.exists) {
         Map<String, dynamic> userDataMap = userSnapshot.data()!;
         setState(() {
-          currentUser = UserModel.fromMap(userDataMap);
+          _currentUser = UserModel.fromMap(userDataMap);
         });
       } else {
         print('User data not found in Firestore');
@@ -84,11 +88,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // Save user data to local storage
-  void _saveUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userData', json.encode(currentUser?.toMap()));
-  }
+  // Saves user data to local storage using SharedPreferences.
+  // void _saveUserData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('userData', json.encode(_currentUser?.toMap()));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +110,11 @@ class _HomePageState extends State<HomePage> {
                   title: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 10, 35),
                     child: LocationInputField(
-                      currentUser: currentUser,
+                      buildingName: _currentUser?.userLocation.buildingNumber,
+                      apartmentNumber:
+                          _currentUser?.userLocation.apartmentNumber,
                       onUpdateLocation: _updateLocationInfo,
+                      currentUser: _currentUser,
                     ),
                   ),
                   backgroundColor: const Color.fromRGBO(3, 173, 246, 1),
@@ -136,45 +143,51 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   ImageSlider(),
-                  // Padding(
-                  //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  //   child: ImageSlider(),
-                  // ),
-                  // const Center(
-                  //   child: Text(
-                  //     'Our Services',
-                  //     style:
-                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
                   Expanded(
                     child: FutureBuilder<List<DocumentSnapshot>>(
-                      future: fetchServices(),
+                      // Renamed fetchServices to getServices
+                      future: getServices(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const GFLoader(
-                            type: GFLoaderType.android,
-                            loaderIconOne: Text('Please'),
-                            loaderIconTwo: Text('Wait'),
-                            loaderIconThree: Text('a moment'),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
+                        try {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const GFLoader(
+                              type: GFLoaderType.android,
+                              loaderIconOne: Text('Please'),
+                              loaderIconTwo: Text('Wait'),
+                              loaderIconThree: Text('a moment'),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            List<Service> fetchedServices = [];
+                            for (int index = 0;
+                                index < snapshot.data!.length;
+                                index++) {
                               Map<String, dynamic> serviceData =
                                   snapshot.data![index].data()
                                       as Map<String, dynamic>;
-
                               var service = Service.fromSnapshot(serviceData,
                                   AppLocalizations.of(context)!.localeName);
-                              return ServiceCard(
-                                  service: service, currentuser: currentUser);
-                            },
-                          );
+                              fetchedServices.add(service);
+                            }
+                            return ServicesScreen(services: fetchedServices, user: _currentUser);
+
+                            // return ListView.builder(
+                            // itemCount: snapshot.data!.length,
+                            // itemBuilder: (context, index) {
+                            //     Map<String, dynamic> serviceData =
+                            //         snapshot.data![index].data()
+                            //             as Map<String, dynamic>;
+                            //     var service = Service.fromSnapshot(serviceData,
+                            //         AppLocalizations.of(context)!.localeName);
+                            //     return ServiceCard(
+                            //         service: service, currentuser: _currentUser);
+                            // },
+                            // );
+                          }
+                        } catch (e) {
+                          return Text('error $e');
                         }
                       },
                     ),
